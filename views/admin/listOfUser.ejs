@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NAZMA</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+</head>
+
+<body>
+
+
+    <h1 class="p-5 text-center text-light">List Of users</h1>
+    <style>
+        body {
+            background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_ei9IG-OPJTN_nYrzYAGabAU5Rw9QoK-sYGTneLEGNEg53K-lgYvU58cq9L4LKWTItsg&usqp=CAU);
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
+
+    <div class="text-center">
+
+        <a class="text-decoration-none fs-4 text-success fw-bolder px-5" href="dashboard">Go to Dashboard</a>
+    </div>
+    <br><br>
+    <% 
+    if(typeof message !=='undefined'){
+        %>
+        <h4 class="text-success p-2 text-center"><%= message %></h4>
+        <%
+    }
+    %>
+
+    <table class="table table-striped table-bordered" class="center">
+        <tr class="text-warning p-2 text-center">
+            <th>Name</th>
+            <th>Email</th>
+            <th>Mobile</th>
+            <th>Admin status</th>
+            <th>Action</th>
+            <th>Delete</th>
+        </tr>
+        <% if(locals.users.length>0){
+            for(let i=0;i<locals.users.length;i++){ %>
+                <tr class="text-center">
+                    <th>
+                        <%= locals.users[i].name %>
+                    </th>
+                    <th>
+                        <%= locals.users[i].email %>
+                    </th>
+                    <th>
+                        <%= locals.users[i].mobile %>
+                    </th>
+                    <th>
+                        <% if (locals.users[i].is_admin==1) { %>
+                            <p>Admin</p>
+                            <% } else { %>
+                                <p>Not Admin</p>
+                                <% } %>
+                    </th>
+                    <th>
+                        <% if(locals.users[i].is_blocked){ %>
+                            <form action="/admin/UnblockUser" method="post">
+                                <button name="name" type="submit" value="<%=users[i].email%>"
+                                    class="btn btn-outline-danger py-0 px-1">Unblock</button>
+                            </form>
+                            <% } else {%>
+                             <form action="/admin/blockUser" method="post">
+                                  <button name="name" type="submit" value="<%=users[i].email%>"
+                                    class="btn btn-danger py-0 px-2">
+                                    Block
+                                </button>
+                            </form> 
+                                <% } %>
+
+                    </th>
+                    <th>
+
+                        <form class="p-1" action="/admin/deleteUser" method="post">
+                            <input type="hidden" name="_id" value="<%= locals.users[i]._id %>">
+                            <input type="submit" class="btn btn-danger custom-submit-btn" value="Delete">
+                        </form>
+
+
+
+                    </th>
+
+                </tr>
+                <% } } else{ %>
+                    <tr>
+                        <td colspan="5">users Not found </td>
+                    </tr>
+                    <% } %>
+
+
+    </table>
+
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

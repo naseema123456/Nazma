@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Categories</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="Wish shop project">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="/styles/bootstrap4/bootstrap.min.css">
+  <link href="/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link href="/plugins/malihu-custom-scrollbar/jquery.mCustomScrollbar.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="/plugins/jquery-ui-1.12.1.custom/jquery-ui.css">
+  <link rel="stylesheet" type="text/css" href="/styles/categories.css">
+  <link rel="stylesheet" type="text/css" href="/styles/categories_responsive.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="super_container">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header_inner d-flex flex-row align-items-center justify-content-start">
+      <div class="logo"><a href="#">NAZMA</a></div>
+      <nav class="main_nav">
+        <ul>
+          <li><a href="/landing">home</a></li>
+          <li><a href="/categories">categories</a></li>
+          <li><a href="/contact">contact</a></li>
+        </ul>
+      </nav>
+      <div class="header_content ml-auto">
+        <div class="shopping">
+          <!-- Cart -->
+          <a href="/cart">
+            <div class="cart text-dark">
+              <span class="material-symbols-outlined">
+                shopping_bag
+              </span>
+              <div class="cart_num_container">
+                <div class="cart_num_inner">
+                  <div class="cart_num">1</div>
+                </div>
+              </div>
+            </div>
+          </a>
+          <!-- Star -->
+          <a href="#">
+            <div class="star text-dark">
+              <span class="material-symbols-outlined">
+                favorite
+              </span>
+              <div class="star_num_container">
+                <div class="star_num_inner">
+                  <div class="star_num">0</div>
+                </div>
+              </div>
+            </div>
+          </a>
+          <!-- Avatar -->
+          <a href="/login">
+            <div class="avatar text-dark">
+              <span class="material-symbols-outlined">
+                person
+              </span>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="burger_container d-flex flex-column align-items-center justify-content-around menu_mm">
+        <div></div><div></div><div></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Menu -->
+  <div class="menu d-flex flex-column align-items-end justify-content-start text-right menu_mm trans_400">
+    <div class="menu_close_container"><div class="menu_close"><div></div><div></div></div></div>
+    <div class="logo menu_mm"><a href="#">NAZMA</a></div>
+    <div class="search">
+      <!-- ... (search form) ... -->
+    </div>
+    <nav class="menu_nav">
+      <ul class="menu_mm">
+        <li class="menu_mm"><a href="/landing">home</a></li>
+        <li class="menu_mm"><a href="#">categories</a></li>
+        <li class="menu_mm"><a href="/contact">contact</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="container-fluid">
+    <div class="row justify-content-center"> <!-- Center the product cards horizontally -->
+        <% if(List.length){
+            for(i=0; i<List.length;i++){%>
+
+        <div class="col-md-4">
+            <div class="card text-center">
+                <img src="/uploads/<%=List[i].imageUrl%>" class="card-img-top" alt="Product 1">
+                <div class="card-body d-flex flex-column align-items-center"> <!-- Center the card details vertically -->
+                    <h5 class="card-title"><%= List[i].productName %></h5>
+                    <p class="card-text"><%= List[i].details %></p>
+                    <p class="product-amount ">
+                        <%= List[i].amount %>
+                    </p>
+                </div>
+                <div class="product-buttons text-center">
+                    <a href="/cart?id=<%= List[i]._id %>" class="btn btn-primary"><i class="fa fa-shopping-cart"></i></a>
+                    <a href="#" class="btn btn-secondary"><i class="fa fa-heart"></i></a>
+                    <a href="/checkout" class="btn btn-success"><i class="fa fa-shopping-bag"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <% }} %>
+    </div>
+</div>
+
+
+
+
+<style>
+    .container-fluid{
+        margin-top: 150px;
+    }
+    .product-amount {
+							font-size: 18px;
+							font-weight: bold;
+							color: #e74c3c;
+							margin-top: 10px;
+						}
+
+</style>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="/styles/bootstrap4/popper.js"></script>
+<script src="/styles/bootstrap4/bootstrap.min.js"></script>
+<script src="/plugins/easing/easing.js"></script>
+<script src="/plugins/parallax-js-master/parallax.min.js"></script>
+<script src="/plugins/Isotope/isotope.pkgd.min.js"></script>
+<script src="/plugins/malihu-custom-scrollbar/jquery.mCustomScrollbar.js"></script>
+<script src="/plugins/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+<script src="/js/categories_custom.js"></script>
+</body>
+</html>

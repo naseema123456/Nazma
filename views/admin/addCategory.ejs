@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NAZMA - Add Category</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  
+</head>
+<body>
+    <h1 class="p-5 text-center text-light">Add Category</h1>
+    <style>
+        body {
+            background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_ei9IG-OPJTN_nYrzYAGabAU5Rw9QoK-sYGTneLEGNEg53K-lgYvU58cq9L4LKWTItsg&usqp=CAU);
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
+  
+    <div class="text-center">
+        <a class="text-decoration-none fs-4 text-success fw-bolder px-5" href="dashboard">Go to Dashboard</a>
+    </div>
+    <br><br>
+    <%
+    if(typeof message !=='undefined'){
+        %>
+        <h4><%= message %></h4>
+        <%
+    }
+    %>
+
+    <form action="/admin/insertCategory" method="post" class="p-5">
+        <div class="mb-3">
+            <label for="categoryName" class="form-label">Category Name</label>
+            <input type="text" class="form-control" id="categoryName" name="categoryName">
+        </div>
+        <button type="submit" class="btn btn-primary">Add Category</button>
+    </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>

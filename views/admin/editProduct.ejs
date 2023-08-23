@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel - Product List</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+  }
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  h2 {
+    margin-top: 0;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  th {
+    background-color: #f2f2f2;
+  }
+  a {
+    text-decoration: none;
+    color: #007bff;
+  }
+  button {
+    padding: 8px 15px;
+    cursor: pointer;
+  }
+  .delete-button {
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Product List - Admin Panel</h2>
+    <%
+    if(typeof message !=='undefined'){
+        %>
+        <h4><%= message %></h4>
+        <%
+    }
+    %>
+    <div class="text-center">
+        <a class="text-decoration-none fs-4 text-success fw-bolder px-5" href="dashboard">Go to Dashboard</a>
+    </div>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Category</th>
+            <th>Product Name</th>
+            <th>Brand Name</th>
+            <th>Details</th>
+            <th>Count</th>
+            <th>Amount</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+
+        <% if (locals.productList) { if (locals.productList.length) {
+            for (let i = 0; i < locals.productList.length; i++) { %>
+        <tr>
+            <td><%= locals.productList[i]._id %></td>
+            <td><%= locals.productList[i].categoryName %></td>
+            <td><%= locals.productList[i].productName %></td>
+            <td><%= locals.productList[i].brandName %></td>
+            <td><%= locals.productList[i].details %></td>
+            <td><%= locals.productList[i].count %></td>
+            <td><%= locals.productList[i].amount %></td>
+            <td>
+                <form method="POST" action="/admin/edit-product">
+                    <input type="hidden" name="productId" value="<%= productList[i]._id %>">
+                    <button type="submit" class="edit-button">Edit</button>
+                </form>
+            </td>
+            
+            <td>
+                <form method="POST" action="/admin/delete-product">
+                    <input type="hidden" name="productId" value="<%= productList[i]._id %>">
+                    <button type="submit" class="delete-button">Delete</button>
+                </form>
+            </td>
+        </tr>
+        <% }} }%>
+    </table>
+</div>
+
+</body>
+</html>

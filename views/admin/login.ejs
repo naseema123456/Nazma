@@ -1,0 +1,31 @@
+<%- include('../header.ejs')%>
+<h1 class="p-5 text-center text-light" >Admin Login</h1>
+<style>
+    body {
+        background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_Hkqj9yydqJErWtYhYjaa_dociQkqubm36eYSKd7biH65rZ5kpjrFwv6z-5IBD1HRXkk&usqp=CAU);
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+</style>
+
+
+<%
+if(typeof message !=='undefined'){
+    %>
+    <h4><%= message %></h4>
+    <%
+}
+%>
+<div class="text-center">
+<form action="/admin/login" method="post">
+    <input class=" form-control-lg" type="text" name="email" required placeholder="Enter Email" required></input>
+    <br><br>
+    <input class=" form-control-lg" type="password" name="password" required  placeholder="Enter Password" required></input>
+    <br><br>
+    <button class=" form-control-lg mb-4" type="submit">Login</button>
+
+</form>
+</div>
+
+
+<%- include('../footer.ejs')%>

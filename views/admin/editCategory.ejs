@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Category Management</title>
+<style>
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  th {
+    background-color: #f2f2f2;
+  }
+  button {
+    padding: 4px 8px;
+    cursor: pointer;
+  }
+  .delete-button {
+    background-color: #ff6b6b;
+    color: white;
+  }
+</style>
+</head>
+<body>
+
+
+  <h2>Category List</h2>
+  <div class="text-center">
+    <a class="text-decoration-none fs-4 text-success fw-bolder px-5" href="dashboard">Go to Dashboard</a>
+</div>
+
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Edit</th>
+      <th>Delete</th>
+    </tr>
+    
+    <% if (List.length) {
+          for (i = 0; i < List.length; i++) { %>
+      <tr>
+          <td><%= List[i]._id %></td>
+          <td><a href="/product/<%= List[i].categoryName %>"><%= locals.List[i].categoryName %></a></td>
+          <td>
+            <div id="editPopup" class="popup">
+              <div class="popup-content">
+                  <!-- <span class="close" onclick="closeEditPopup()">&times;</span> -->
+                  <!-- <h3>Edit Category</h3> -->
+                  <form id="editForm" method="POST" action="/admin/editcategory">
+                      <input type="hidden" id="oldCategoryId" name="oldCategoryId" value="<%= List[i]._id %>">
+                      <label for="newCategoryName">New Category Name:</label>
+                      <input type="text" id="newCategoryName" name="newCategoryName"  placeholder="Enter new name" required>
+                      <button type="submit" class="edit-button">Save</button>
+                  </form>
+              </div>
+          </div>
+       
+          </td>
+          <td>
+              <form id="deleteForm<%= List[i]._id %>" method="POST" action="/admin/deletecategory">
+                  <input type="hidden" name="_id" value="<%= List[i]._id %>">
+                  <button type="submit" class="delete-button" onclick="confirmDelete('<%= List[i].categoryName %>')">Delete</button>
+              </form>
+          </td>
+      </tr>
+    <% }} %>
+  </table>
+  
+  <script>
+    function editCategory(id) {
+        const confirmedit = confirm("Are you sure you want to edit category " + id + "?");
+        editForm.submit();
+        // if (confirmedit) {
+        //     const popup = document.getElementById('editPopup');
+        //     const categoryIdInput = document.getElementById('editCategoryId');
+        //     const newCategoryNameInput = document.getElementById('newCategoryName');
+    
+        //     categoryIdInput.value = id;
+        //     newCategoryNameInput.value = "categoryName"; // Clear any previous values
+    
+        //     popup.style.display = 'block';
+        // }
+    }
+    
+    // function closeEditPopup() {
+    //     const popup = document.getElementById('editPopup');
+    //     popup.style.display = 'none';
+    // }
+    
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     const editButtons = document.querySelectorAll('.edit-button');
+    //     editButtons.forEach(function(button) {
+    //         button.addEventListener('click', function(event) {
+    //             event.preventDefault();
+    //             const categoryId = button.dataset.categoryId;
+    //             editCategory(categoryId);
+    //         });
+    //     });
+    // });
+  
+  function confirmDelete(id) {
+    var confirmDelete = confirm("Are you sure you want to delete category  " + id + "?");
+    if (confirmDelete) {
+      var deleteForm = document.getElementById("deleteForm" + id);
+      deleteForm.submit();
+    }
+  }
+  </script>
+  </body>
+  </html>
