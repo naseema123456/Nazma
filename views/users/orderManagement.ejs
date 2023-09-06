@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Management</title>
+    <!-- Include Bootstrap CSS link -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container text-center">
+        <h1>Order Management</h1>
+        
+        <!-- Order History -->
+        <h2>Order History</h2>
+       
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Order Number</th>
+                    <th>Date</th>
+                    <th>Address</th>
+                    <th>Total Amount</th>
+                    <th>Status</th>
+                    <th>   </th>
+                   
+                </tr>
+                
+				
+            </thead>
+            <tbody>
+                <%console.log(List)%>
+                <%if(List){%>
+                <% List.forEach((item) => { %>
+                    <tr>
+                      <td><%= item.orderNumber %></td>
+                      <td><%= item.orderdate.toISOString().slice(0,10) %></td>
+                      <td><%= item.orderaddress.name%>,<%= item.orderaddress.place%>,<%= item.orderaddress.mobile%></td>
+                      <td><%= item.totalprice %></td>
+                      <td>
+                        <% if( item.orderstatus=="Delivered"){ %>
+                            <span class="badge badge-success"><%=item.orderstatus%></span>
+                           <td><button class="btn badge-danger">
+                                <a class="text-dark" href="/refund?id=<%= item._id %>">Refund</a>
+                              </button></td> 
+                          <% }else if( item.orderstatus=="shipping"){ %>
+                            <span class="badge badge-info"><%=item.orderstatus%></span>
+                          <td> <button class="btn badge-warning">
+                                <a href="/cancelOrder?id=<%= item._id %>">Cancel</a>
+                              </button></td> 
+                            <% }else if( item.orderstatus=="Out for Delivery"){ %>
+                                <span class="badge badge-warning"><%=item.orderstatus%></span> 
+                                <td><button class="btn badge-warning">
+                                    <a href="/cancelOrder?id=<%= item._id %>">Cancel</a>
+                                  </button></td>
+                                <% }else if( item.orderstatus=="pending"){ %>
+                                    <span class="badge badge-danger"><%=item.orderstatus%></span>
+                                <td> <button class="btn badge-warning">
+                                        <a href="/cancelOrder?id=<%= item._id %>">Cancel</a>
+                                      </button></td>
+                                      <% }else if( item.orderstatus=="cancel"){ %>
+                                        <span class="badge badge-warning"><%=item.orderstatus%></span>
+                                    <td>  <button class="btn badge-success">
+                                            <a class="text-dark" href="/cart">Order</a>
+                                          </button></td>
+                                        </button>
+                                        <% }else if( item.orderstatus=="refund"){ %>
+                                            <span class="badge badge-danger"><%=item.orderstatus%></span>
+                                     
+                            <% } %>
+                      </td>
+                    </tr>
+                  <% }) %>
+                  <% } %>
+             
+                <!-- Add more rows as needed -->
+            </tbody>
+        </table>
+        <a href="/" class="btn btn-primary">Back to Home</a>
+        <a href="/cart" class="btn btn-primary">Back to Cart</a>
+        <a href="/categories" class="btn btn-primary">Back to categary</a>
+        <a href="/profile" class="btn btn-primary">Back to profile</a>
+        <!-- Order Details -->
+        
+        <!-- Return Requests -->
+          <style>
+        /* Custom styles */
+        body {
+            background-color: #f4f4f4;
+        }
+        .container {
+            padding: 20px;
+        }
+        h1, h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .card {
+            margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .btn-primary {
+            background-color: #007bff;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+        }
+        .btn-sm {
+            font-size: 14px;
+        }
+        th {
+            text-align: center;
+        }
+        td {
+            vertical-align: middle;
+        }
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        ul li {
+            margin-bottom: 5px;
+        }
+    </style>
+    
+    <!-- Include Bootstrap JS and any additional scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

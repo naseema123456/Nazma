@@ -55,7 +55,7 @@
 							</div>
 						</a>
 						<!-- Star -->
-						<a href="#">
+						<a href="/wishList">
 							<div class="star text-dark">
 								<span class="material-symbols-outlined">
 									favorite
@@ -75,6 +75,15 @@
 								</span>
 							</div>
 						</a>
+
+						<a href="/logout">
+							<div class="avatar text-dark">
+								<span class="material-symbols-outlined">
+									exit_to_app <!-- This icon represents logout -->
+								</span>
+							</div>
+						</a>
+						
 					</div>
 				</div>
 
@@ -158,6 +167,7 @@
 									<div class="cart_bar_title_quantity">Quantity</div>
 									<div class="cart_bar_title_total">Total</div>
 									<div class="cart_bar_title_button"></div>
+									<div class="cart_bar_title_button"></div>
 								</div>
 							</div>
 						</div>
@@ -191,31 +201,19 @@
 													<div class="product_quantity clearfix">
 														<div class="input-group">
 															<div class="input-group-prepend">
-																<button class="btn btn-secondary" type="button" onclick="decrementQuantity(<%= i %>)">-</button>
+																<button class="btn btn-secondary" type="button" name="id" value="<%= List[i].cartProduct._id %>" onclick="decrementQuantity('<%= i %>')">-</button>
 															</div>
 															<input  class="form-control text-center quantity_input" type="text" pattern="[0-9]*" value="<%= List[i].cart.quantity %>">
 															<div class="input-group-append">
-																<button class="btn btn-secondary" type="button" onclick="incrementQuantity(<%= i %>)">+</button>
+																<button class="btn btn-secondary" type="button"  name="id" value="<%= List[i].cartProduct._id %>"onclick="incrementQuantity('<%= i %>')">+</button>
 															</div>
 														</div>
 													</div>
 												</div>
 												
-												
-														<!-- <div class="quantity_buttons">
-															<div id="quantity_inc_button"
-																class="quantity_inc quantity_control"><i
-																	class="fa fa-caret-up"  aria-hidden="true"></i></div>
-															<div id="quantity_dec_button"
-																class="quantity_dec quantity_control"><i
-																	class="fa fa-caret-down" aria-hidden="true"></i>
-															</div>
-														</div> -->
-													<!-- </div>
-												</div> -->
 											
 												<!-- Products Total Price -->
-												<div class="cart_product_total" > <input type="text" class="text-center w-50 displayRate" readonly  value="<%= List[i].cartProduct.amount %>"> </div>
+												<div class="cart_product_total" > <input type="text" class="text-center w-50 displayRate" readonly  value="<%= List[i].cartProduct.amount %>*<%= List[i].cart.quantity%>"> </div>
 												<!-- Product Cart Trash Button -->
 												<div class="cart_product_button">
 													<button class="cart_product_remove" onclick="removeProduct(this)" data-index="<%= i %>">
@@ -223,8 +221,11 @@
 													</button>
 													
 												</div>
+												
 											</div>
+											
 										</div>
+										<button  class="btn btn-success"><a href="/checkout?id=<%= List[i].cartProduct._id %>" style="color: aliceblue;"> Buy Now</a></button>
 									</li>
 								</ul>
 							</div>
@@ -252,19 +253,21 @@
 									<div class="cart_title">cart total</div>
 									<ul>
 										<% let totalAmount = 0; %>
-										<% if(List.length){ for(i=0; i<List.length;i++){%>
+										<% if(List.length){ for(i=0; i<List.length;i++){
+											totalAmount += List[i].cartProduct.amount; 
+											%>
 										<li class="d-flex flex-row align-items-center justify-content-start">
 											<div class="cart_total_title"><%= List[i].cartProduct.productName %></div>
 											<div class="cart_total_price ml-auto"><%= List[i].cartProduct.amount %></div>
 										</li>
-										<% totalAmount += List[i].cartProduct.amount; %>
+									
 										<% }} %>
 										<li class="d-flex flex-row align-items-center justify-content-start">
 											<div class="cart_total_title">Total</div>
 											<div class="cart_total_price ml-auto"><%= totalAmount %></div>
 										</li>
 									</ul>
-									<button class="cart_total_button">proceed to checkout</button>
+									<button  class="cart_total_button "><a href="/checkout"> proceed to checkout</a></button>
 								</div>
 							</div>
 						</div>
@@ -412,18 +415,20 @@ function decrementQuantity(i) {
 			const qty = document.getElementsByClassName("quantity_input")[i].value
 			document.getElementsByClassName("displayRate")[i].value = data * qty
 			
-			fetch(`/addquantity/${qtyUpdated}`).then(()=>{
-			window.location.reload()
+			fetch(`/addquantity/${qtyUpdated}`).then(()=>{;
+				method='post'
+				console.log(id);
+				window.location.reload()
 			}).catch((Error)=>{
 				console.error('error');
 			})
-						
-}
-	</script>
+			
+		}
+		</script>
 
 
-	<script src="js/jquery-3.2.1.min.js"></script>
-	<script src="styles/bootstrap4/popper.js"></script>
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="styles/bootstrap4/popper.js"></script>
 	<script src="styles/bootstrap4/bootstrap.min.js"></script>
 	<script src="plugins/easing/easing.js"></script>
 	<script src="plugins/parallax-js-master/parallax.min.js"></script>

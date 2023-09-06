@@ -305,6 +305,7 @@ input {
         <div class="form sign-in">
             <h2>Welcome</h2>
             <form action="/login" method="post">
+            <label> 
                 <span>Email</span>
                 <input name="email" type="email" />
             </label>
@@ -313,7 +314,7 @@ input {
                 <input name="password" type="password" />
             </label>
    
-            <p class="forgot-pass">Forgot password?</p>
+            <p class="forgot-pass"><a href="/otplogin"> Forgot password?</a></p>
             <% 
             if(typeof message !=='undefined'){
                 %>

@@ -1,0 +1,125 @@
+<%- include("../header.ejs")%>
+<header class="header">
+    <div class="header_inner d-flex flex-row align-items-center justify-content-start">
+        <div class="logo"><a href="#">NAZMA</a></div>
+        <nav class="main_nav">
+            <ul>
+                <li><a href="/landing">home</a></li>
+                <li><a href="/categories">categories</a></li>
+
+                <li><a href="/contact">contact</a></li>
+            </ul>
+        </nav>
+        <div class="header_content ml-auto">
+            <div class="search header_search">
+                <form action="#">
+                    <input type="search" class="search_input" required="required">
+                    <button type="submit" id="search_button" class="search_button"><img
+                            src="/images/magnifying-glass.svg" alt=""></button>
+                </form>
+            </div>
+            <div class="shopping">
+                <!-- Cart -->
+                <a href="/cart">
+                    <div class="cart text-dark">
+                        <span class="material-symbols-outlined">
+                            shopping_bag
+                        </span>
+                        <div class="cart_num_container">
+                            <div class="cart_num_inner">
+                                <div class="cart_num">1</div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <!-- Star -->
+                <a href="/wishList">
+                    <div class="star text-dark">
+                        <span class="material-symbols-outlined">
+                            favorite
+                        </span>
+                        <div class="star_num_container">
+                            <div class="star_num_inner">
+                                <div class="star_num">0</div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <!-- Avatar -->
+                <a href="/profile">
+                    <div class="avatar text-dark">
+                        <span class="material-symbols-outlined">
+                            person
+                        </span>
+                    </div>
+                </a>
+                <a href="/logout">
+                    <div class="avatar text-dark">
+                        <span class="material-symbols-outlined">
+                            exit_to_app <!-- This icon represents logout -->
+                        </span>
+                    </div>
+                </a>
+                
+            </div>
+        </div>
+
+        <div class="burger_container d-flex flex-column align-items-center justify-content-around menu_mm">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</header>
+
+<!-- Menu -->
+
+<div class="menu d-flex flex-column align-items-end justify-content-start text-right menu_mm trans_400">
+    <div class="menu_close_container">
+        <div class="menu_close">
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <div class="logo menu_mm"><a href="#">NAZMA</a></div>
+    <div class="search">
+        <form action="#">
+            <input type="search" class="search_input menu_mm" required="required">
+            <button type="submit" id="search_button_menu" class="search_button menu_mm"><img class="menu_mm"
+                    src="/images/magnifying-glass.svg" alt=""></button>
+        </form>
+    </div>
+    <nav class="menu_nav">
+        <ul class="menu_mm">
+            <li class="menu_mm"><a href="/landing">home</a></li>
+            <li class="menu_mm"><a href="#">categories</a></li>
+
+            <li class="menu_mm"><a href="/contact">contact</a></li>
+        </ul>
+    </nav>
+</div>
+<body>
+    <div class="container" style="margin-top: 15%;">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body text-center">
+              <h2 class="card-title">Order Successful</h2>
+              <p class="card-text">Thank you for your order. Your payment has been processed successfully.</p>
+              <a href="/" class="btn btn-primary">Back to Home</a>
+              <a href="/cart" class="btn btn-primary">Back to Cart</a>
+           
+        
+              <a href="/orderManagement" class="btn btn-primary">Back to Order</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+<%- include("../footer.ejs")%>

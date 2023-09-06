@@ -9,14 +9,8 @@
   
 </head>
 <body>
-    <h1 class="p-5 text-center text-light">Edit Product</h1>
-    <style>
-        body {
-            background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_ei9IG-OPJTN_nYrzYAGabAU5Rw9QoK-sYGTneLEGNEg53K-lgYvU58cq9L4LKWTItsg&usqp=CAU);
-            background-repeat: no-repeat;
-            background-size: cover;
-        }
-    </style>
+    <h1 class="p-5 text-center text-dark">Edit Product</h1>
+  
   
     <div class="text-center">
         <a class="text-decoration-none fs-4 text-success fw-bolder px-5" href="dashboard">Go to Dashboard</a>
@@ -31,14 +25,15 @@ if(typeof message !=='undefined'){
 %>
 
     <form action="/admin/updateProduct" method="post" class="p-5" enctype="multipart/form-data">
+        <input type="hidden" name="productId" value="<%= product._id %>">
    
         <div class="mb-3">
             <label for="productName" class="form-label">Product Name</label>
-            <input type="text" class="form-control" value="<%= locals.productId.productName %>" id="productName" name="productName" required>
+            <input type="text" class="form-control" value="<%= product.productName %>" id="productName" name="productName" required>
         </div>
         <div class="mb-3">
             <label for="brandName" class="form-label">Brand Name</label>
-            <input type="text" class="form-control" id="brandName" name="brandName"required>
+            <input type="text" class="form-control"  value="<%= product.brandName %>" id="brandName" name="brandName"required>
         </div>
         <div class="mb-3">
             <label for="imageUrl" class="form-label">Image URL</label>
@@ -46,15 +41,15 @@ if(typeof message !=='undefined'){
         </div>
         <div class="mb-3">
             <label for="details" class="form-label">Details</label>
-            <textarea class="form-control" id="details" name="details"required></textarea>
+            <textarea class="form-control" id="details"  value="<%= product.details %>" name="details"required></textarea>
         </div>
         <div class="mb-3">
             <label for="count" class="form-label">Count</label>
-            <input type="number" class="form-control" id="count" name="count" required>
+            <input type="number" class="form-control"  value="<%= product.count %>" id="count" name="count" required>
         </div>
         <div class="mb-3">
             <label for="amount" class="form-label">Amount</label>
-            <input type="number" class="form-control" id="amount" name="amount" required>
+            <input type="number" class="form-control"  value="<%= product.amount %>" id="amount" name="amount" required>
         </div>
         <button type="submit" class="btn btn-primary">Update</button>
     </form>

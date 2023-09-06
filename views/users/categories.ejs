@@ -54,7 +54,7 @@
 							</div>
 						</a>
 						<!-- Star -->
-						<a href="#">
+						<a href="/wishList">
 							<div class="star text-dark">
 								<span class="material-symbols-outlined">
 									favorite
@@ -74,6 +74,14 @@
 								</span>
 							</div>
 						</a>
+						<a href="/logout">
+							<div class="avatar text-dark">
+								<span class="material-symbols-outlined">
+									exit_to_app <!-- This icon represents logout -->
+								</span>
+							</div>
+						</a>
+						
 					</div>
 				</div>
 
@@ -138,11 +146,26 @@
 			</div>
 		</div>
 		<br>
-
+		<div class="container mt-3">
+			<div class="row justify-content-center">
+			  <div class="col-md-6">
+				<form class="form-inline" action="/search?category" method="GET">
+				  <div class="input-group">
+					<input type="text" class="form-control" id="categorySearch" name="category" placeholder="Search for a category">
+					<div class="input-group-append">
+					  <button class="btn btn-primary" type="submit">Search</button>
+					</div>
+				  </div>
+				</form>
+			  </div>
+			</div>
+		  </div>
+		
 
 		<div class="container">
 			<div class="row">
 				<div class="col-3">
+					
 
 					<!-- Sidebar Left -->
 
@@ -171,7 +194,7 @@
 					<% if(product.length){ for(i=0; i<product.length; i++){ %>
 							<div class="col-md-3"><a href="/product?id=<%= product[i]._id %>" >
 								<div class="p-3 mb-3" style="border-radius: 2em; border: #e74c3c;">
-									<img class="w-100" style="border-radius: 2em; height: 25em;" src="/uploads/<%=product[i].imageUrl%>" alt="Product Image">
+									<img class="w-100" style="border-radius: 2em; height: 25em;" src="/uploads/<%=product[i].imageUrl[0]%>" alt="Product Image">
 								<!-- <div class="card-body"> -->
 									<p class="category text-center">
 										<%= product[i].categoryName %>
@@ -191,8 +214,8 @@
 								    <div class="product-buttons text-center">
 										
 										<a href="/cart?id=<%= product[i]._id %>" class="btn btn-primary"><i class="fa fa-shopping-cart"></i></a>
-										<a href="#" class="btn btn-secondary"><i class="fa fa-heart"></i></a>
-										<a href="/checkout" class="btn btn-success"><i class="fa fa-shopping-bag"></i></a>
+										<button class="btn btn-secondary" onclick="addwish('<%= product[i]._id %>')"class="btn btn-secondary"><i class="fa fa-heart"></i></button>
+										<a href="/checkout?id=<%= product[i]._id %>" class="btn btn-success"><i class="fa fa-shopping-bag"></i></a>
 								
 									</div>
 								</div>
@@ -362,7 +385,29 @@
 							});
 						});
 					</script>
+<script>
+async function addwish(id){
+	console.log(id);console.log('hi');
+	const response =  await fetch("/addwish", {
+      method: "post",
+      headers: {
+        "Content-Type": 'application/json'
+      },
+      body: JSON.stringify({
+       id:id,
+      })
+    })
+      .then((res) => {
+        // let result = res.json()
+		if(res.result =="false") window.alert('please login')
+		else window.alert("You added wishList")
+      })
+      .catch((error) => {
+        window.alert("Unable to add wishList")
+        console.error(error);})
+}
 
+</script>
 					<script src="/js/jquery-3.2.1.min.js"></script>
 					<script src="/styles/bootstrap4/popper.js"></script>
 					<script src="/styles/bootstrap4/bootstrap.min.js"></script>

@@ -1,0 +1,170 @@
+<%- include("../header.ejs")%>
+    <header class="header">
+        <div class="header_inner d-flex flex-row align-items-center justify-content-start">
+            <div class="logo"><a href="#">NAZMA</a></div>
+            <nav class="main_nav">
+                <ul>
+                    <li><a href="/landing">home</a></li>
+                    <li><a href="/categories">categories</a></li>
+
+                    <li><a href="/contact">contact</a></li>
+                </ul>
+            </nav>
+            <div class="header_content ml-auto">
+                <div class="search header_search">
+                    <form action="#">
+                        <input type="search" class="search_input" required="required">
+                        <button type="submit" id="search_button" class="search_button"><img
+                                src="/images/magnifying-glass.svg" alt=""></button>
+                    </form>
+                </div>
+                <div class="shopping">
+                    <!-- Cart -->
+                    <a href="/cart">
+                        <div class="cart text-dark">
+                            <span class="material-symbols-outlined">
+                                shopping_bag
+                            </span>
+                            <div class="cart_num_container">
+                                <div class="cart_num_inner">
+                                    <div class="cart_num">1</div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <!-- Star -->
+                    <a href="/wishList">
+                        <div class="star text-dark">
+                            <span class="material-symbols-outlined">
+                                favorite
+                            </span>
+                            <div class="star_num_container">
+                                <div class="star_num_inner">
+                                    <div class="star_num">0</div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <!-- Avatar -->
+                    <a href="/profile">
+                        <div class="avatar text-dark">
+                            <span class="material-symbols-outlined">
+                                person
+                            </span>
+                        </div>
+                    </a>
+                    <a href="/logout">
+                        <div class="avatar text-dark">
+                            <span class="material-symbols-outlined">
+                                exit_to_app <!-- This icon represents logout -->
+                            </span>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+
+            <div class="burger_container d-flex flex-column align-items-center justify-content-around menu_mm">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Menu -->
+
+    <div class="menu d-flex">
+        <div class="menu_close_container">
+            <div class="menu_close">
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+        <div class="logo menu_mm"><a href="#">NAZMA</a></div>
+        <div class="search">
+            <form action="#">
+                <input type="search" class="search_input menu_mm" required="required">
+                <button type="submit" id="search_button_menu" class="search_button menu_mm"><img class="menu_mm"
+                        src="/images/magnifying-glass.svg" alt=""></button>
+            </form>
+        </div>
+        <nav class="menu_nav">
+            <ul class="menu_mm">
+                <li class="menu_mm"><a href="/landing">home</a></li>
+                <li class="menu_mm"><a href="#">categories</a></li>
+
+                <li class="menu_mm"><a href="/contact">contact</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <body>
+        <div class="container text-center" style="margin-top: 10% ">
+            <h1 class="text-center">My Wishlist</h1>
+
+            <!-- Wishlist Items -->
+            <div class="row m-5 ">
+                <!-- Item 1 -->
+                <% if(List.length){ for(i=0; i<List.length;i++){%>
+                <div class="col-md-4 ">
+                    <div class="mb-4 text-center" style="height: 100%;">
+                        <div class="card text-center item-container" >
+                            <div class="image-container">
+                                <img src="/uploads/<%= List[i].imageUrl %>" class="card-img-top" alt="Item 1">
+                            </div>
+                                <div class="card-body" style="height: 85%;">
+                                    <h5 class="card-title">
+                                        <%= List[i].productName %>
+                                    </h5>
+                                    <p class="card-text">
+                                        <%= List[i].details %>
+                                    </p>
+                                    <button class="btn btn-danger" onclick="removeWish('<%= List[i]._id %>')">Remove from
+                                        Wishlist</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <% }} %>
+
+            </div>
+        </div>
+<style>
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+</style>
+
+        <script>
+            async function removeWish(id) {
+                const response = await fetch("/removeWish", {
+                    method: "post",
+                    headers: {
+                        "Content-Type": 'application/json'
+                    },
+                    body: JSON.stringify({
+                        id: id,
+                    })
+                })
+                    .then((res) => {
+                        // let result = res.json()
+                        if (res.result == "false") window.alert('please login')
+                        else window.alert("You removed from wishList")
+                        location.reload()
+                    })
+            }
+        </script>
+        <!-- Link to Bootstrap JS and Popper.js -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+
+        <%- include("../header.ejs")%>
