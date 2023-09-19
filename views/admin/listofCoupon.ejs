@@ -313,6 +313,8 @@
                 <tr>
                     <th>Coupon Code</th>
                     <th>Discount Amount</th>
+                    <th>Min Amount</th>
+                    <th>Max Amount</th>
                     <th>Expiry Date</th>
                     <th>Edit</th>
                     <th>Delete</th>
@@ -324,6 +326,8 @@
                         <tr>
                             <td><%= coupons[i].code %></td>
                             <td><%= coupons[i].discountAmount %>%</td>
+                            <td><%= coupons[i].minimumPurchaseAmount %></td>
+                            <td><%= coupons[i].maximumPurchaseAmount %></td>
                             <td><%= coupons[i].expiryDate.toISOString().slice(0,10) %></td>
                            <td> <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal<%= coupons[i]._id %>" data-index="<%= i %>">
                                 Edit
@@ -344,6 +348,8 @@
         <div class="modal-body">
             <input type="text" class="form-control"name="code" id="address"value=" <%= coupons[i].code %>">
             <input type="text" class="form-control"name="discountAmount" id="address"value=" <%= coupons[i].discountAmount %>">
+            <input type="text" class="form-control"name="minAmount" id="address"value=" <%= coupons[i].minimumPurchaseAmount %>">
+            <input type="text" class="form-control"name="maxAmount" id="address"value=" <%= coupons[i].maximumPurchaseAmount %>">
             <input type="text" class="form-control"name="expiryDate" id="address"value=" <%=coupons[i].expiryDate.toISOString().slice(0,10) %>">
         </div>
         <div class="modal-footer">

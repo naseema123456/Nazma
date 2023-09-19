@@ -8,8 +8,9 @@ const products = require("../models/productmodel");
 // const products = require("../models/productmodel");
 const category = require("../models/categorymodel")
 const order = require('../models/order');
-const Coupon = require('../models/coupen')
-
+const Coupon = require('../models/coupen');
+const banners=require('../models/banner');
+const { product } = require("./userController");
 const login = async (req, res) => {
     try {
 
@@ -21,9 +22,77 @@ const login = async (req, res) => {
 
 const dashboard = async (req, res) => {
     try {
+        if(req.session._id){ 
+            const monthSales = await order.aggregate([
+            {
+              $match: {
+      orderstatus:"Delivered"
+              }
+            },
+            {
+              $unwind: "$products"
+            },
+            {
+              $project: {
+                year: { $year: "$orderdate" },
+                month: { $month: "$orderdate" },
+                monthlySales: {
+                  $multiply: ["$products.amount", "$products.quantity"]
+                }
+              }
+            },
+            {
+              $group: {
+                _id: {
+                  year: "$year",
+                  month: "$month",
+                },
+                monthlySales: { $sum: "$monthlySales" }
+              }
+            },
+            {
+              $project: {
+                _id: 0,
+                year: "$_id.year",
+                month: "$_id.month",
+                monthlySales: 1
+              }
+            },
+            {
+              $sort: {
+                year: 1,
+                month: 1,
+        
+              }
+            }
+          ]);
+    
+          
+        //   console.log(monthSales);
+          const totalSalesAmount = monthSales.reduce((total, sale) => total + sale.monthlySales, 0);
+      const orderCount = await order.countDocuments({ orderstatus: "Delivered" });
+    //   console.log(orderCount);
+    //   console.log('Total Sales Amount:', totalSalesAmount);
 
-        res.render('dashboard')
-    } catch (error) {
+    // const categories = await category.find({}, {categoryName:1, _id: 1 });
+    const categories = await category.find({}, 'categoryName');
+    // const  cat = await products.find({}).populate("category");console.log(cat);
+
+    res.render("dashboard", {
+       category: categories,
+        monthSales,
+        totalSalesAmount,
+        orderCount,
+   // Pass these counts to the template
+      })
+
+
+        }else{
+            res.redirect('/admin/login')
+        }
+   
+      }  
+    catch (error) {
         console.log(error.message);
     }
 }
@@ -54,8 +123,11 @@ const verifyLogin = async (req, res) => {
                 res.cookie('user_name', user.name);
                 console.log(user.name + " logged in");
                 const allData = await User.find();
-                console.log(user);
-                res.render('dashboard', { users: allData });
+                // console.log(user);
+
+
+                    res.redirect("/admin/dashboard")
+
             } else {
                 res.render('login', { message: "Email, password, or admin status is incorrect" });
             }
@@ -134,7 +206,7 @@ const editproduct = async (req, res) => {
 
         const product = await products.findOne({ _id: productId })
         console.log(product)
-
+console.log(product);
         res.render('editPrdt', { product })
     } catch (error) {
         console.log(error.message);
@@ -230,9 +302,23 @@ const editProduct = async (req, res) => {
 };
 const deleteCategory = async (req, res) => {
     try {
-        console.log(req.body);
+       
         const id = req.body._id;
-        await category.deleteOne({ _id: id })
+console.log(id);
+
+// Step 1: Delete the category
+await category.deleteOne({ _id: id });
+
+// Step 2: Find products belonging to the deleted category
+const productsToDelete = await products.find({ category: id });
+
+// Step 3: Delete the products
+for (const product of productsToDelete) {
+  await products.deleteOne({ _id: product._id });
+}
+
+console.log(`Category with ID ${id} and its associated products have been deleted.`);
+console.log(products);
         console.log('hi');
         res.redirect('/admin/editCategory')
     } catch (error) {
@@ -295,7 +381,7 @@ const updateProduct = async (req, res) => {
 
 const OrderList = async (req, res) => {
     try {
-        const orders = await order.find({ user: req.session.user_name })
+        const orders   = await order.find({ user: req.session.user_name })
         res.render('orders', { List: orders })
     } catch (error) {
         console.log(error.message);
@@ -321,12 +407,15 @@ const coupon = async (req, res) => {
     }
 }
 const submitCoupon = async (req, res) => {
-    try {
+    try {console.log(req.body);
         // console.log(req.body);
         const coupon = new Coupon({
             code: req.body.code,
             discountAmount: req.body.discountAmount,
-            expiryDate: req.body.expiryDate
+            minimumPurchaseAmount:req.body.minAmount,
+            maximumPurchaseAmount:req.body.maxAmount,
+            expiryDate: req.body.expiryDate,
+        type:req.body.type
         });
         // console.log(coupon);
         const couponData = await coupon.save();
@@ -367,6 +456,95 @@ const editCoupon=async(req,res)=>{
         console.log(error.message);
     }
 }
+
+const salesReport=async(req,res)=>{
+    try {
+        const orders   = await order.find({ user: req.session.user_name })
+        res.render('salesReport',{List:orders})
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+
+
+const deleteImage=async(req,res)=>{
+    try {
+        console.log(req.body);
+        const index=req.body.index;
+        const product=await products.findOne({ _id: req.body.Id })
+        product.imageUrl.splice(index, 1);
+
+        // Update the document with the modified array
+        await products.updateOne({ _id: req.body.Id }, { $set: { imageUrl: product.imageUrl } });
+        // const product = await products.findOne({_id:req.body.Id},{$pull:{imageUrl:index}});
+        console.log(product);
+         res.json()
+           
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+const banner=async(req,res)=>{
+    try {
+        const banner = await banners.find();
+        res.render('banner',{banner:banner})
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+const addBanner=async(req,res)=>{
+    try {
+        let image;
+        console.log(req.file);
+
+        if (req.file) {
+            image = req.file.filename
+        }
+
+        const baner = new banners({
+            image: image,
+            offer: req.body.offer,
+            title: req.body.title,
+        });
+
+        const bannerData = await baner.save();
+        console.log(bannerData);
+        res.redirect('/admin/banner')
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+const editBanner=async(req,res)=>{
+    try {console.log('hi');
+    let image;
+    console.log(req.file);
+
+    if (req.file) {
+        image = req.file.filename
+    }
+
+    const baner = new banners({
+        image: image,
+        offer: req.body.offer,
+        title: req.body.title,
+    });
+    const id=req.body.bannerID
+    console.log(id);
+    const updatedbanner = await banners.updateOne({ _id:id}, { $set: { title:req.body.title,offer:req.body.offer,image:req.file.filename } });
+        console.log(updatedbanner);
+        res.redirect('/admin/banner')
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+const addbanner=async(req,res)=>{
+    try {
+        res.render('addbanner')
+    } catch (error) {
+        console.log(error.message);
+    }
+}
 module.exports = {
     login,
     verifyLogin,
@@ -393,5 +571,11 @@ module.exports = {
     submitCoupon,
     listofCoupon,
     removeCoupon,
-    editCoupon
+    editCoupon,
+    salesReport,
+    deleteImage,
+    banner,
+    addBanner,
+    editBanner,
+    addbanner
 }

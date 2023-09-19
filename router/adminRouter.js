@@ -16,7 +16,16 @@ const storage = multer.diskStorage({
     cb(null,uniqueSuffix );
   }
 });
-const upload = multer({ storage: storage });
+const upload = multer({ storage:storage});
+
+// const bannerupload = multer.diskStorage({
+//   destination: 'public/banner/',
+//   filename: function (req, file, cb) {
+//     const uniqueSuffix = `${Date.now()}-${file.originalname}`;
+//     cb(null,uniqueSuffix );
+//   }
+// });
+// const bannerimg = multer({ storage:bannerupload});
 
 
 adminRouter.get('/',auth.isLogout,adminController.login)
@@ -42,6 +51,7 @@ adminRouter.post('/delete-product',auth.isLogin,adminController.deleteproduct)
 adminRouter.get('/editProduct',auth.isLogin,adminController.editProduct)
 adminRouter.post('/edit-product',auth.isLogin,adminController.editproduct)
 adminRouter.post('/updateProduct',auth.isLogin,upload.array('files',5),adminController.updateProduct)
+adminRouter.post('/deleteImage',auth.isLogin,adminController.deleteImage)
 
 
 
@@ -63,6 +73,14 @@ adminRouter.post('/submitCoupon',auth.isLogin,adminController.submitCoupon)
 adminRouter.get('/listofCoupon',auth.isLogin,adminController.listofCoupon)
 adminRouter.post('/removeCoupon',adminController.removeCoupon)
 adminRouter.post('/editCoupon',auth.isLogin,adminController.editCoupon)
+
+
+
+adminRouter.get('/salesReport',auth.isLogin,adminController.salesReport)
+adminRouter.get('/banner',auth.isLogin,adminController.banner)
+adminRouter.get('/addbanner',auth.isLogin,adminController.addbanner)
+adminRouter.post('/addBanner',auth.isLogin,upload.single('files'),adminController.addBanner)
+adminRouter.post('/editBanner',auth.isLogin,upload.single('files'),adminController.editBanner)
 
 
 // adminRouter.get('*',function(req,res){

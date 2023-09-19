@@ -1,0 +1,151 @@
+<%- include("../header.ejs")%>
+
+<div class="super_container">
+	
+	<!-- Header -->
+
+	<header class="header">
+		<div class="header_inner d-flex flex-row align-items-center justify-content-start">
+			<div class="logo"><a href="#">NAZMA</a></div>
+			<nav class="main_nav">
+				<ul>
+					<li><a href="/landing">home</a></li>
+					<li><a href="/categories">category</a></li>
+					<!-- <li><a href="categories.html">accessories</a></li>
+					<li><a href="categories.html">lingerie</a></li> -->
+					<li><a href="/contact">contact</a></li>
+				</ul>
+			</nav>
+			<div class="header_content ml-auto">
+				<div class="search header_search">
+					<form action="#">
+						<input type="search" class="search_input" required="required">
+						<button type="submit" id="search_button" class="search_button"><img src="/images/shopping-bag.svg" alt=""></button>
+					</form>
+				</div>
+				<div class="shopping">
+					<!-- Cart -->
+					<a href="/cart">
+						<div class="cart text-dark">
+							<span class="material-symbols-outlined">
+								shopping_bag
+								</span>
+							<div class="cart_num_container">
+								<div class="cart_num_inner">
+									<div class="cart_num">1</div>
+								</div>
+							</div>
+						</div>
+					</a>
+					<!-- Star -->
+					<a href="/wishList">
+						<div class="star text-dark">
+							<span class="material-symbols-outlined">
+								favorite
+								</span>
+							<div class="star_num_container">
+								<div class="star_num_inner">
+									<div class="star_num">0</div>
+								</div>
+							</div>
+						</div>
+					</a>
+					<!-- Avatar -->
+					<a href="/profile">
+						<div class="avatar text-dark">
+							<span class="material-symbols-outlined">
+								person
+								</span>
+						</div>
+					</a>
+					<a href="/logout">
+						<div class="avatar text-dark" id="">
+							<span class="material-symbols-outlined">
+								exit_to_app <!-- This icon represents logout -->
+							</span>
+						</div>
+					</a>
+					
+				</div>
+			</div>
+			<div class="burger_container d-flex flex-column align-items-center justify-content-around menu_mm"><div></div><div></div><div></div></div>
+		</div>
+	</header>
+
+	<!-- Menu -->
+
+	<div class="menu d-flex flex-column align-items-end justify-content-start text-right menu_mm trans_400">
+		<div class="menu_close_container"><div class="menu_close"><div></div><div></div></div></div>
+		<div class="logo menu_mm"><a href="#">NAZMA</a></div>
+		<div class="search">
+			<form action="#">
+				<input type="search" class="search_input menu_mm" required="required">
+				<button type="submit" id="search_button_menu" class="search_button menu_mm"><img class="menu_mm" src="images/magnifying-glass.svg" alt=""></button>
+			</form>
+		</div>
+		<nav class="menu_nav">
+			<ul class="menu_mm">
+				<li class="menu_mm"><a href="/landing">home</a></li>
+				<li class="menu_mm"><a href="categories.ejs">categary</a></li>
+				<!-- <li class="menu_mm"><a href="#">accessories</a></li>
+				<li class="menu_mm"><a href="#">lingerie</a></li> -->
+				<li class="menu_mm"><a href="/contact">contact</a></li>
+				<li class="menu_mm"><a href="/wallet">Wallet</a></li>
+				<li class="menu_mm"><a href="/login">login</a></li>
+				<li class="menu_mm"><a href="/admin">admin</a></li>
+			</ul>
+		</nav>
+	</div>
+
+
+
+    <div class="container mt-5">
+        <h1 class="mb-4">My Wallet</h1>
+
+        <!-- Wallet Balance -->
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="card-title mb-0">Wallet Balance</h5>
+            </div>
+            <div class="card-body">
+                <h2 class="card-text"> ₹ <%= user.balance %></h2>
+             
+            </div>
+        </div>
+        
+        <!-- Transaction History -->
+        <h5>Transaction History</h5>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Date</th>
+					<th>Type</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+				<% if(user.transactions.length){ for(i=0; i<user.transactions.length; i++){ %>
+                <tr>
+                    <td><%= user.transactions[i].date.toISOString().slice(0,10) %></td>
+					<td><%= user.transactions[i].type %></td>
+                    <td><%= user.transactions[i].Description %></td>
+                    <td> ₹ <%= user.transactions[i].amount %></td>
+                </tr>
+				<% }} %>
+               
+                <!-- Add more transaction rows here -->
+            </tbody>
+        </table>
+    </div>
+
+
+
+
+
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<%- include("../footer.ejs")%>
+
+

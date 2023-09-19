@@ -14,15 +14,15 @@ const couponSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
-  usageLimit: {
-    type: Number,
-    default: null, // Unlimited usage if null
-  },
-  usageCount: {
+type:{
+type:String,
+require:true,
+},
+  minimumPurchaseAmount: {
     type: Number,
     default: 0,
   },
-  minimumPurchaseAmount: {
+  maximumPurchaseAmount: {
     type: Number,
     default: 0,
   },

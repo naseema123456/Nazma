@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bootstrap Banner Example</title>
+    
+    <!-- Add Bootstrap CSS link -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- Bootstrap Banner -->
+<div class="container">
+    <div class="alert alert-primary m-3" role="alert">
+        This is a Bootstrap banner!
+    </div>
+
+    <h2>Current Banner</h2><br>
+<div class="row">
+    <% if(banner.length){ for(i=0; i<banner.length; i++){ %>
+    <div class="col-4">
+        
+ 
+
+        <div class="card  item-container" style="width: 18rem;">
+            <img src="/uploads/<%= banner[i].image %>" class="card-img-top" alt="Banner Image">
+            <div class="card-body">
+
+                <p class="card-text">-  <%= banner[i].offer %>  off</p>
+                <p class="card-text"><%= banner[i].title %></p>
+                <div class="promo_link"><a href="#">Shop Now</a></div>
+            
+            </div>
+        </div><br>
+    </div>
+        <% }} %>
+ 
+
+</div>
+
+</div>
+
+<!-- Add Bootstrap JS and Popper.js (optional) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

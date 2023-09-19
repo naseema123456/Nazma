@@ -185,14 +185,14 @@
 												alt="Product 1"></div>
 										<!-- Product Name -->
 										<div class="cart_product_name"><a href="#">
-												<%= List[i].cartProduct.productName %>
+											₹	<%= List[i].cartProduct.productName %>
 											</a></div>
 										<div class="cart_product_info ml-auto">
 											<div
 												class="cart_product_info_inner d-flex flex-row align-items-center justify-content-md-end justify-content-start">
 												<!-- Product Price -->
 												<div class="cart_product_price">
-													<input type="text" class="w-50 text-center rate" readonly value="<%= List[i].cartProduct.amount %>">
+													<input type="text" class="w-50 text-center rate" readonly value=" <%= List[i].cartProduct.amount %>">
 												</div>
 												<!-- Product Quantity -->
 
@@ -264,7 +264,7 @@
 										<% }} %>
 										<li class="d-flex flex-row align-items-center justify-content-start">
 											<div class="cart_total_title">Total</div>
-											<div class="cart_total_price ml-auto"><%= totalAmount %></div>
+											<div class="cart_total_price ml-auto">  ₹<%= totalAmount %></div>
 										</li>
 									</ul>
 									<button  class="cart_total_button "><a href="/checkout"> proceed to checkout</a></button>

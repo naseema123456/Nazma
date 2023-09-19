@@ -155,18 +155,12 @@ if(typeof message !=='undefined'){
             <br>
             <br>
             <div class="card mt-3">
-                <div class="card-header">Cancel Order</div>
-                <div class="card-body">
-                    <!-- Cancel order form or action here -->
-                    <p>Select an order to cancel:</p>
-                    <select class="form-control">
-                        <option>Order #123</option>
-                        <option>Order #456</option>
-                    </select>
-                    <button class="btn btn-danger mt-2">Cancel Order</button>
+                <div class="card-header">Referral ID</div>
+                <div>
+                    <p>Your Referral Code: <span id="referralCode"><%= profile.refferel %></span></p>
+                    <button id="copyButton" class="btn btn-primary">Copy to Clipboard</button>
                 </div>
-            </div>
-
+                </div>
        
         </div>
     </div>
@@ -188,7 +182,33 @@ window.location.reload()
   
 </script>
 <!-- Include Bootstrap JS and any other necessary scripts -->
-
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Fetch the referral code from the page content
+        const referralCode = document.getElementById('referralCode').textContent;
+    
+        // Display the referral code (this line is not necessary since it's already in the HTML)
+        // document.getElementById('referralCode').textContent = referralCode;
+    
+        // Add click event listener to the "Copy to Clipboard" button
+        const copyButton = document.getElementById('copyButton');
+        copyButton.addEventListener('click', function() {
+            // Create a temporary textarea element to copy the text to clipboard
+            const textarea = document.createElement('textarea');
+            textarea.value = referralCode;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+    
+            // Change the button text to indicate successful copy
+            copyButton.textContent = 'Copied!';
+            setTimeout(function() {
+                copyButton.textContent = 'Copy to Clipboard';
+            }, 2000); // Reset the button text after 2 seconds
+        });
+    });
+    </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>

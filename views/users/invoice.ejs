@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5"id="invoice">
+        <div class="row">
+            <div class="col-md-6 text-primary">
+                <h2>Invoice</h2>
+            </div>
+          
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-6">
+                <h5>From:</h5>
+                <address>
+                    Your Company Name<br>
+                    123 Main Street<br>
+                    City, State, Zip<br>
+                    Email: your@example.com<br>
+                </address>
+            </div>
+            <div class="col-md-6">
+                <h5>To:</h5>
+                <%if (orders){%>
+                <address>
+                    <strong>Name:</strong> <%= orders.orderaddress.name %><br>
+                    <strong>Place:</strong> <%= orders.orderaddress.place %><br>
+                    <strong>Mobile:</strong> <%= orders.orderaddress.mobile %><br>
+                    <strong>District:</strong> <%= orders.orderaddress.district %><br>
+                    <strong>Post:</strong> <%= orders.orderaddress.post %><br>
+                    <strong>State:</strong> <%= orders.orderaddress.state %><br>
+                </address>
+            </div>
+        </div>
+        <table class="table table-bordered mt-4">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+            
+               
+              
+                <tr>
+                    <td>Item 1</td>
+                    <% for(let i=0;i< orders.products.length; i++){ %>
+                    <td><%= orders.products[i].product %></td>
+                    <td><%= orders.products[i].quantity %></td>
+                    <td>  ₹  <%= orders.totalprice %></td>
+                    <td> ₹  <%= orders.totalprice %></td>
+                    <%}%>
+                </tr>
+
+                <%}%>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4" class="text-right">Subtotal:</td>
+                    <td> ₹  <%= orders.totalprice %></td>
+                </tr>
+                <tr>
+                    <td colspan="4" class="text-right">Tax :</td>
+                    <td>₹  00.00</td>
+                </tr>
+                <tr>
+                    <td colspan="4" class="text-right">Total:</td>
+                    <td>₹  <%= orders.totalprice %></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <div class="col-md-6 text-right">
+        <button class="btn btn-primary" onclick="printdiv()">Download PDF</button>
+    </div>
+    <!-- Include Bootstrap JS and other libraries as needed -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+
+    function printdiv(){
+        var content = document.getElementById('invoice').innerHTML;
+        var originalContent = document.body.innerHTML;
+        document.body.innerHTML = content;
+        window.print();
+        document.body.innerHTML = originalContent;
+
+    }
+ </script>
+</body>
+</html>

@@ -15,13 +15,14 @@
                         
                         <div class="form-group  text-center">
                             <label for="otp">Enter 4-digit OTP:</label>
-                            <input type="hidden"  name="userId" value="<%= userId %>" >
+                            <input type="hidden" id="userId" name="userId" value="<%= userId %>" >
                           <div class="centered-content"> <input type="text" class="form-control w-80 text-center" id="otp" name="otp" maxlength="4" placeholder="Enter 4-digit OTP" required></div>
                             
                         </div>
                         <br>
                         <div class="text-center">
                         <button type="submit" class="btn btn-primary ">Verify OTP</button>
+                        <a  onclick="startResendOTPTimer(120,'resendTimer')" id="resendTimer" disabled >Resend  OTP</a>
                         </div>
                     </form>
                 </div>
@@ -29,7 +30,54 @@
         </div>
     </div>
 </div>
+<script>
+    function startResendOTPTimer(duration, displayElementId) {
+    let timer = duration;
+    const displayElement = document.getElementById(displayElementId);
 
+    const countdownInterval = setInterval(function () {
+        const minutes = Math.floor(timer / 60);
+        const seconds = timer % 60;
+
+        displayElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+        if (--timer < 0) {
+            clearInterval(countdownInterval);
+            displayElement.textContent = "Resend OTP";
+            displayElement.disabled = false; // Enable the button after timer ends
+        }
+    }, 1000);
+}
+
+
+
+// Usage
+const duration = 120; // Duration in seconds (2 minutes in this example)
+const displayElementId = "resendTimer"; // ID of the element where timer will be displayed
+
+// Call the function with duration and element ID
+startResendOTPTimer(duration, displayElementId);
+
+document.getElementById("resendTimer").addEventListener("click", function() {
+   
+   
+
+    fetch('/resend-otp', {
+        
+        method: 'POST', // Use POST for sending data
+        headers: {
+            'Content-Type': 'application/json',
+        },
+       
+    })
+    .then((response) => {
+        window.location.reload()
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+});
+</script>
 <!-- Include Bootstrap JS (optional) -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>

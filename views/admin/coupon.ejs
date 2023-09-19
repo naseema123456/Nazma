@@ -321,6 +321,15 @@
                                 <input type="number" class="form-control" id="discountAmount" name="discountAmount" required>
                             </div>
                             <div class="form-group">
+                              <label for="flatMinAmount">Minimum Purchase Amount (Flat Coupon):</label>
+                              <input type="number" class="form-control" id="flatMinAmount" name="minAmount" required>
+                          </div>
+                          <div class="form-group">
+                              <label for="flatMaxAmount">Maximum Purchase Amount (Flat Coupon):</label>
+                              <input type="number" class="form-control" id="flatMaxAmount" name="maxAmount" required>
+                          </div>
+                            <input type="hidden" name="type" value="OFF" id="">
+                            <div class="form-group">
                                 <label for="flatExpiryDate">Expiry Date:</label>
                                 <input type="date" class="form-control" id="expiryDate" name="expiryDate" required>
                             </div>
@@ -335,8 +344,17 @@
                                     <input type="String" class="form-control" id="code" name="code" required>
                                 </div>
                                 <label for="offPercentage">Percentage Off:</label>
+                                <input type="hidden" name="type" value="OFF" id="">
                                 <input type="number" class="form-control" id="discountAmount" name="discountAmount" required>
                             </div>
+                            <div class="form-group">
+                              <label for="offMinAmount">Minimum Purchase Amount (Off Coupon):</label>
+                              <input type="number" class="form-control" id="offMinAmount" name="minAmount" required>
+                          </div>
+                          <div class="form-group">
+                              <label for="offMaxAmount">Maximum Purchase Amount (Off Coupon):</label>
+                              <input type="number" class="form-control" id="offMaxAmount" name="maxAmount" required>
+                          </div>
                             <div class="form-group">
                                 <label for="offExpiryDate">Expiry Date:</label>
                                 <input type="date" class="form-control" id="expiryDate" name="expiryDate" required>

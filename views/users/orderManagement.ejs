@@ -33,15 +33,16 @@
                 <%if(List){%>
                 <% List.forEach((item) => { %>
                     <tr>
-                      <td><%= item.orderNumber %></td>
+                       
+                      <td> <a href="/invoice?id=<%= item._id %>" ><%= item.orderNumber %></a></td> 
                       <td><%= item.orderdate.toISOString().slice(0,10) %></td>
                       <td><%= item.orderaddress.name%>,<%= item.orderaddress.place%>,<%= item.orderaddress.mobile%></td>
-                      <td><%= item.totalprice %></td>
-                      <td>
+                      <td> ₹ <%= item.totalprice %></td>
+                      <td>	
                         <% if( item.orderstatus=="Delivered"){ %>
                             <span class="badge badge-success"><%=item.orderstatus%></span>
                            <td><button class="btn badge-danger">
-                                <a class="text-dark" href="/refund?id=<%= item._id %>">Refund</a>
+                                <a class="text-dark" href="/return?id=<%= item._id %>">Return</a>
                               </button></td> 
                           <% }else if( item.orderstatus=="shipping"){ %>
                             <span class="badge badge-info"><%=item.orderstatus%></span>
@@ -58,6 +59,11 @@
                                 <td> <button class="btn badge-warning">
                                         <a href="/cancelOrder?id=<%= item._id %>">Cancel</a>
                                       </button></td>
+                                      <% }else if( item.orderstatus=="return"){ %>
+                                        <span class="badge badge-danger"><%=item.orderstatus%></span>
+                                    <!-- <td> <button class="btn badge-warning">
+                                            <a href="/cancelOrder?id=<%= item._id %>">Cancel</a>
+                                          </button></td> -->
                                       <% }else if( item.orderstatus=="cancel"){ %>
                                         <span class="badge badge-warning"><%=item.orderstatus%></span>
                                     <td>  <button class="btn badge-success">
@@ -68,7 +74,8 @@
                                             <span class="badge badge-danger"><%=item.orderstatus%></span>
                                      
                             <% } %>
-                      </td>
+                        </td>
+                   
                     </tr>
                   <% }) %>
                   <% } %>

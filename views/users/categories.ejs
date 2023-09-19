@@ -113,9 +113,12 @@
 			<nav class="menu_nav">
 				<ul class="menu_mm">
 					<li class="menu_mm"><a href="/landing">home</a></li>
-					<li class="menu_mm"><a href="#">categories</a></li>
-
+					<li class="menu_mm"><a href="/categories">categary</a></li>
 					<li class="menu_mm"><a href="/contact">contact</a></li>
+					<li class="menu_mm"><a href="/banner">Banner</a></li>
+					<li class="menu_mm"><a href="/wallet">Wallet</a></li>
+					<li class="menu_mm"><a href="/login">login</a></li>
+					<li class="menu_mm"><a href="/admin">admin</a></li>
 				</ul>
 			</nav>
 		</div>
@@ -146,49 +149,103 @@
 			</div>
 		</div>
 		<br>
-		<div class="container mt-3">
-			<div class="row justify-content-center">
-			  <div class="col-md-6">
-				<form class="form-inline" action="/search?category" method="GET">
-				  <div class="input-group">
-					<input type="text" class="form-control" id="categorySearch" name="category" placeholder="Search for a category">
-					<div class="input-group-append">
-					  <button class="btn btn-primary" type="submit">Search</button>
-					</div>
-				  </div>
-				</form>
-			  </div>
+		<div class="row">
+			<div class="text-center">
+				<nav aria-label="Page navigation example ">
+					<ul class="pagination ">
+					    <li class="page-item">
+							<!-- Generate the "Previous" link with query.page - 1 -->
+							<a class="page-link" href="/categories?page=<%=   currentPage - 1 %>">Previous</a>
+						</li>
+						<% for(let i=1; i <=totalPages; i++) { %>
+							<li class="page-item <%= (i === currentPage) ? 'active' : '' %>">
+							  <a class="page-link" href="/categories?page=<%= i %>">
+								<%= i %>
+							  </a>
+							</li>
+				            <% } %>
+						<li class="page-item">
+							<!-- Generate the "Next" link with query.page + 1 -->
+							<a class="page-link" href="/categories?page=<%=   currentPage + 1 %>">Next</a>
+						</li>
+					</ul>
+				  </nav>
 			</div>
-		  </div>
+		</div>
+		<div class="container m-3">
+			<div class="row">
+				<div class="col-md-4 col-12">
+					<!-- Search by Category -->
+					<form class="form-inline mb-3" action="/categories" method="GET">
+						<div class="input-group">
+							<input type="text" class="form-control" id="productsearch" name="product" placeholder="Search for a product">
+							<div class="input-group-append">
+								<button class="btn btn-primary" type="submit">Search</button>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="col-md-4 col-12">
+					<!-- Category Filter -->
+					<div class="sidebar_section d-flex w-100" style="border: none;">
+						<div class="sidebar_title p-2 rounded text-center" style="line-height: normal;height: 40px;">Category</div>
+						<div class="sidebar_section_content d-flex w-100">
+							<form id="categoryFilterForm" action="/categories" method="GET">
+								<div class="d-flex w-100">
+									
+										<select class="form-control mb-2" id="categoryFilter" name="category">
+											<option value="">Select Category</option>
+											<option value="all">All</option>
+											<% if(List.length){ for(i=0; i<List.length; i++){ %>
+											<option value="<%= List[i]._id %>"><%= List[i].categoryName %></option>
+											<% }} %>
+										</select>
+								
+									<div><button class="btn btn-primary btn-block" type="submit">Apply </button></div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4 col-12">
+					<!-- Price Range Filter -->
+					<div class="sidebar_section d-flex w-100" style="border: none;">
+						<div class="sidebar_title p-2 rounded text-center" style="line-height: normal;height: 40px; width: 106px;">Price</div>
+						<div class="sidebar_section_content d-flex w-100">
+							<form id="filterForm" action="/categories" method="GET">
+								<div class="d-flex">
+									<select class="form-control mb-2" id="filter" name="amount" style="width: 162px;">
+										<option value="">Select Filter</option>
+										<option value="all">All</option>
+										<option value="0,99">Rs.0 - Rs.99</option>
+										<option value="100,999">Rs.100 - Rs.999</option>
+										<option value="1000,9999">Rs.1000 - Rs.9999</option>
+										<option value="10000">Rs.9999 - More</option>
+									</select>
+									<div><button class="btn btn-primary btn-block" type="submit">Apply</button></div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<script>
+			$(document).ready(function () {
+				// Handle filter selection change
+				$('#filter').change(function () {
+					// Submit the form when the selection changes
+					$('#filterForm').submit();
+				});
+			});
+		</script>
 		
 
 		<div class="container">
 			<div class="row">
-				<div class="col-3">
-					
-
-					<!-- Sidebar Left -->
-
-					<!-- <div class="sidebar_left clearfix"> -->
-
-					<!-- Categories -->
-					<!-- Add this dropdown inside the "sidebar_section" div -->
-					  <div class="sidebar_section">
-                <div class="sidebar_title">Category</div>
-                <div class="sidebar_section_content">
-                    <ul class="category-list">
-                        <li class="category-item" data-category="all"><a href="/categories/?category=">All </a></li>
-                        <% if(List.length){ for(i=0; i<List.length; i++){ %>
-                            <li class="category-item" data-category=""><a href="/categories?category=<%= List[i]._id %>"><%= List[i].categoryName %></a>
-                                
-                            </li>
-                        <% }} %>
-                    </ul>
-                </div>
-            </div>
-				</div>
-
-
+				
+				
 				<!-- <div class="card mb-4"> -->
 					<!-- Display each product in a separate box -->
 					<% if(product.length){ for(i=0; i<product.length; i++){ %>
@@ -196,9 +253,7 @@
 								<div class="p-3 mb-3" style="border-radius: 2em; border: #e74c3c;">
 									<img class="w-100" style="border-radius: 2em; height: 25em;" src="/uploads/<%=product[i].imageUrl[0]%>" alt="Product Image">
 								<!-- <div class="card-body"> -->
-									<p class="category text-center">
-										<%= product[i].categoryName %>
-									</p>
+									
 									<h2 class="product-name">
 										<%= product[i].productName %>
 									</h2>
@@ -209,7 +264,7 @@
 										<%= product[i].details %>
 									</p>
 									<p class="product-amount text-center">
-										<%= product[i].amount %>
+										₹ <%= product[i].amount %>
 									</p>
 								    <div class="product-buttons text-center">
 										
@@ -408,6 +463,26 @@ async function addwish(id){
 }
 
 </script>
+<script>
+    // JavaScript function to handle category search
+   async function searchCategory() {
+        var searchInput = document.getElementById("productsearch").value.toLowerCase(); // Get user input
+		console.log(searchInput);
+	
+			const response = await fetch('/search', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ product:searchInput}),
+			});
+
+	}
+</script>
+
+
+
+
 					<script src="/js/jquery-3.2.1.min.js"></script>
 					<script src="/styles/bootstrap4/popper.js"></script>
 					<script src="/styles/bootstrap4/bootstrap.min.js"></script>

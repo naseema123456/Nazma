@@ -2,18 +2,19 @@
 <html lang="en">
 
 <head>
-	<title>Checkout</title>
+	<title>Categories</title>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="description" content="Wish shop project">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
-	<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" type="text/css" href="styles/checkout.css">
-	<link rel="stylesheet" type="text/css" href="styles/checkout_responsive.css">
-</head>
-
-<body>
+	<link rel="stylesheet" type="text/css" href="/styles/bootstrap4/bootstrap.min.css">
+	<link href="/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<link href="/plugins/malihu-custom-scrollbar/jquery.mCustomScrollbar.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="/plugins/jquery-ui-1.12.1.custom/jquery-ui.css">
+	<link rel="stylesheet" type="text/css" href="/styles/categories.css">
+	<link rel="stylesheet" type="text/css" href="/styles/categories_responsive.css">
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
 	<div class="super_container">
 
@@ -21,11 +22,12 @@
 
 		<header class="header">
 			<div class="header_inner d-flex flex-row align-items-center justify-content-start">
-				<div class="logo"><a href="#">Wish</a></div>
+				<div class="logo"><a href="#">NAZMA</a></div>
 				<nav class="main_nav">
 					<ul>
 						<li><a href="/landing">home</a></li>
-						<li><a href="/categories">category</a></li>
+						<li><a href="/categories">categories</a></li>
+
 						<li><a href="/contact">contact</a></li>
 					</ul>
 				</nav>
@@ -34,14 +36,16 @@
 						<form action="#">
 							<input type="search" class="search_input" required="required">
 							<button type="submit" id="search_button" class="search_button"><img
-									src="images/magnifying-glass.svg" alt=""></button>
+									src="/images/magnifying-glass.svg" alt=""></button>
 						</form>
 					</div>
 					<div class="shopping">
 						<!-- Cart -->
-						<a href="#">
-							<div class="cart">
-								<img src="images/shopping-bag.svg" alt="">
+						<a href="/cart">
+							<div class="cart text-dark">
+								<span class="material-symbols-outlined">
+									shopping_bag
+								</span>
 								<div class="cart_num_container">
 									<div class="cart_num_inner">
 										<div class="cart_num">1</div>
@@ -50,9 +54,11 @@
 							</div>
 						</a>
 						<!-- Star -->
-						<a href="#">
-							<div class="star">
-								<img src="images/star.svg" alt="">
+						<a href="/wishList">
+							<div class="star text-dark">
+								<span class="material-symbols-outlined">
+									favorite
+								</span>
 								<div class="star_num_container">
 									<div class="star_num_inner">
 										<div class="star_num">0</div>
@@ -61,9 +67,11 @@
 							</div>
 						</a>
 						<!-- Avatar -->
-						<a href="#">
-							<div class="avatar">
-								<img src="images/avatar.svg" alt="">
+						<a href="/profile">
+							<div class="avatar text-dark">
+								<span class="material-symbols-outlined">
+									person
+								</span>
 							</div>
 						</a>
 						<a href="/logout">
@@ -73,7 +81,7 @@
 								</span>
 							</div>
 						</a>
-
+						
 					</div>
 				</div>
 
@@ -94,22 +102,27 @@
 					<div></div>
 				</div>
 			</div>
-			<div class="logo menu_mm"><a href="#">Wish</a></div>
+			<div class="logo menu_mm"><a href="#">NAZMA</a></div>
 			<div class="search">
 				<form action="#">
 					<input type="search" class="search_input menu_mm" required="required">
 					<button type="submit" id="search_button_menu" class="search_button menu_mm"><img class="menu_mm"
-							src="images/magnifying-glass.svg" alt=""></button>
+							src="/images/magnifying-glass.svg" alt=""></button>
 				</form>
 			</div>
 			<nav class="menu_nav">
 				<ul class="menu_mm">
 					<li class="menu_mm"><a href="/landing">home</a></li>
-					<li class="menu_mm"><a href="/categories">Category</a></li>
+					<li class="menu_mm"><a href="/categories">categary</a></li>
 					<li class="menu_mm"><a href="/contact">contact</a></li>
+					<li class="menu_mm"><a href="/banner">Banner</a></li>
+					<li class="menu_mm"><a href="/wallet">Wallet</a></li>
+					<li class="menu_mm"><a href="/login">login</a></li>
+					<li class="menu_mm"><a href="/admin">admin</a></li>
 				</ul>
 			</nav>
 		</div>
+
 
 		<!-- Home -->
 
@@ -140,7 +153,8 @@
 
 		<div class="checkout">
 			<div class="container">
-				<form id="checkoutForm" action="/confirm-order" onsubmit="event.preventDefault(); confirmOrder()" method="post">
+				<form id="checkoutForm" action="/confirm-order" onsubmit="event.preventDefault(); confirmOrder()"
+					method="post">
 					<div class="row">
 						<div class="container m-5">
 							<h1>Select Address</h1>
@@ -161,16 +175,7 @@
 
 
 						</div>
-						<!-- <script>
-							$(document).ready(function () {
-								$("#addressSearch").on("keyup", function () {
-									var input = $(this).val().toLowerCase();
-									$("#selectedAddress option").filter(function () {
-										$(this).toggle($(this).text().toLowerCase().indexOf(input) > -1);
-									});
-								});
-							});
-						</script> -->
+
 						<!-- Billing Details -->
 						<div class="col-lg justify-content-center">
 							<div class="row justify-content-center"> <!-- Center the product cards horizontally -->
@@ -188,179 +193,256 @@
 												<p class="card-text">
 													<%= List[i].details %>
 												</p>
-												<p class="product-amount ">
-													<%= List[i].amount %>
+												<p class="product-amount " id="product-amount">
+													₹ <%= List[i].amount %>
 												</p>
-												<p class="card-text">quantity:1</p>
+												<% if (List[i].category=='65083a7a9d34b7808949c476' ) { %>
+													<p>10 % off for all wedding dress</p>
+													<button id="applyCouponBtn" class="btn btn-primary"
+														type="button">Apply for offer</button>
+													<input type="hidden" id="couponCode" value="coupon10">
+													<% } %>
+
+														<input type="hidden" id="totalamount"
+															value="<%= List[i].amount %>">
+														<p class="card-text">quantity:1</p>
+														<span>Your wallet: ₹  <%= profile.wallet.balance%></span>
 											</div>
 
 										</div>
 										<div class="payment_options">
 											<div>
-												<input type="radio" id="radio_payment_1" name="payment_method" value="COD"
-													class="regular_radio"required>
+												<input type="radio" id="radio_payment" name="payment_method"
+													value="COD" class="regular_radio" required>
 												<label for="radio_payment_1">cash on delivery</label>
-												<input type="radio" id="radio_payment_1" name="payment_method" value="RazorPay"
-													class="regular_radio"required>
+												<input type="radio" id="radio_payment_1" name="payment_method"
+													value="RazorPay" class="regular_radio" required>
 												<label for="radio_payment_1">RazorPay</label>
+											
+											<% if (List[i].amount<profile.wallet.balance) { %>
+												<input type="radio" id="radio_payment_2" name="payment_method"
+												value="wallet" class="regular_radio" >
+											<label for="radio_payment_1">Wallet</label>
+												<% } %>
 											</div>
-										</div>
-											<button id="place" type="submit"
-												class="cart_total_button placeOrderButton">
-												place order
-											</button>
+								
 										
+											
+											
+
+											<div class="row justify-content-center mt-4">
+												<div class="col-md-6">
+													<div class="input-group">
+														<input type="text" id="couponCode" class="form-control"
+															placeholder="Enter Coupon Code">
+														<div class="input-group-append">
+															<button id="applyCouponBtn" class="btn btn-primary"
+																type="button">Apply Coupon</button>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											
+											<div class="text-center mt-3">
+												<button id="placeOrderButton" type="submit" class="btn btn-primary">Place Order</button>
+											</div>
+									
+										</div>
 										<div class="text-center"><a href="/orderManagement?id=<%=List[i]._id %>"
 												class="btn btn-warning mt-3 text-center">Order Managment</a></div>
+											</div>
+
 									</div>
-
-									<% }} %>
-							</div>
+									
+								
 						</div>
-
+						<% }} %>
 					</div>
+
+
 				</form>
-
 			</div>
+
 		</div>
-		<div id="confirmationModal" class="modal">
-			<div class="modal-content">
-				<span class="close">&times;</span>
-				<p>Confirm your order?</p>
-				<button class="confirm_button" id="confirmOrderButton">Confirm</button>
-			</div>
+	</div>
+	<div id="confirmationModal" class="modal">
+		<div class="modal-content">
+			<span class="close">&times;</span>
+			<p>Confirm your order?</p>
+			<button class="confirm_button" id="confirmOrderButton">Confirm</button>
 		</div>
+	</div>
 
 
 
 
-		<button id="rzp-button1">Pay</button>
 
 
-		<!-- Newsletter -->
+	<!-- Newsletter -->
 
 
-		<style>
-			.container-fluid {
-				margin-top: 150px;
-			}
+	<style>
+		.container-fluid {
+			margin-top: 150px;
+		}
 
-			.product-amount {
-				font-size: 18px;
-				font-weight: bold;
-				color: #e74c3c;
-				margin-top: 10px;
-			}
+		.product-amount {
+			font-size: 18px;
+			font-weight: bold;
+			color: #e74c3c;
+			margin-top: 10px;
+		}
 
-			.modal {
-				display: none;
-				position: fixed;
-				z-index: 1;
-				left: 0;
-				top: 0;
-				width: 100%;
-				height: 100%;
-				overflow: auto;
-				background-color: rgba(0, 0, 0, 0.4);
-			}
+		.modal {
+			display: none;
+			position: fixed;
+			z-index: 1;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			overflow: auto;
+			background-color: rgba(0, 0, 0, 0.4);
+		}
 
-			.modal-content {
-				background-color: #fff;
-				margin: 15% auto;
-				padding: 20px;
-				border: 1px solid #888;
-				width: 50%;
-				text-align: center;
-			}
+		.modal-content {
+			background-color: #fff;
+			margin: 15% auto;
+			padding: 20px;
+			border: 1px solid #888;
+			width: 50%;
+			text-align: center;
+		}
 
-			.close {
-				color: #aaa;
-				float: right;
-				font-size: 28px;
-				font-weight: bold;
-			}
+		.close {
+			color: #aaa;
+			float: right;
+			font-size: 28px;
+			font-weight: bold;
+		}
 
-			/* Show/hide the modal */
-			.modal.active {
-				display: block;
-			}
-		</style>
-		<!-- ... your previous HTML code ... -->
-		
+		/* Show/hide the modal */
+		.modal.active {
+			display: block;
+		}
+	</style>
+	<!-- ... your previous HTML code ... -->
 
-		<!-- ... your previous HTML code ... -->
-<script>
 
-function confirmOrder() {
-console.log('hi');
-$.ajax({
-	url: "/confirm-order",
-	method: "POST",
-	data: $('#checkoutForm').serialize(),
-	success: function (response) {
-		console.log("ghhghg")
-		if (response.codSuccess) {
-			window.location.href ="/success"
-		} else if (response.razorSuccess) {
-			const order = {
-				"key": "" + response.id + "",
-				"amount": "" + response.amount + "",
-				"currency": "INR",
-				"name": "Acme Corp", //your business name
-    "description": "Test Transaction",
-    "image": "https://example.com/your_logo",
-    // "order_id": "order_9A33XWu170gUtm", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-    
-  
-    "notes": {
-        "address": "Razorpay Corporate Office"
-    },
-    "theme": {
-        "color": "#3399cc"
-    },
-				
-				"handler": function (response) {
-					alert("paymentDone")
-				
-					verifyPayment()
+	<!-- ... your previous HTML code ... -->
+	<script>
+
+		function confirmOrder() {
+			console.log('hi');
+			$.ajax({
+				url: "/confirm-order",
+				method: "POST",
+				data: $('#checkoutForm').serialize(),
+				success: function (response) {
+					console.log("ghhghg")
+					if (response.codSuccess) {
+						window.location.href = "/success"
+					} else if (response.razorSuccess) {
+						const order = {
+							"key": "" + response.id + "",
+							"amount": "" + response.amount + "",
+							"currency": "INR",
+							"name": "Acme Corp", //your business name
+							"description": "Test Transaction",
+							"image": "https://example.com/your_logo",
+							// "order_id": "order_9A33XWu170gUtm", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+
+
+							"notes": {
+								"address": "Razorpay Corporate Office"
+							},
+							"theme": {
+								"color": "#3399cc"
+							},
+
+							"handler": function (response) {
+								alert("paymentDone")
+
+								verifyPayment()
+							}
+	
+						}
+
+						const razorpay = new Razorpay(order);
+
+						const done = razorpay.open();
+
+					} else {
+						window.location.href = `/faiure`
+					}
+				},
+				error: function (err) {
+					console.log(err);
 				}
+			})
+		}
+
+
+		function verifyPayment() {
+			$.ajax({
+				url: "/verify-payment",
+				method: "POST",
+				 success: () => {
+					window.location.href = "/success"
+				},
+				
+			})
+
+		}
+	</script>
+
+	<script>
+
+
+		document.getElementById('applyCouponBtn').addEventListener('click', async () => {
+			console.log("hhhh");
+			const selectedCoupon = document.getElementById('couponCode').value;
+			const totalamount = document.getElementById('totalamount').value;
+			console.log(totalamount, selectedCoupon);
+
+			// Send a request to your server to apply the selected coupon
+			const response = await fetch('/applyCoupon', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ couponCode: selectedCoupon, total: totalamount }),
+			});
+
+			const data = await response.json();
+			console.log(data);
+			if (data.success) {
+				// Update the displayed subtotal with the discounted price
+				document.getElementById('product-amount').innerHTML = `${data.discountedPrice}`;
+				totalamountInput.value = data.discountedPrice; // Update the totalamount field
+				document.getElementById('alert_tag').innerHTML = `${data.message}`;
+			} else {
+				// Display an error message for invalid coupons
+				document.getElementById('alert_tag').innerHTML = `${data.message}`;
 			}
-
-			const razorpay = new Razorpay(order);
-
-			const done = razorpay.open();
-
-		} else {
-			window.location.href = `/checkout`
-		}
-	},
-	error: function (err) {
-		console.log(err);
-}
-})
-}
+		});
 
 
-function verifyPayment(){
-	$.ajax({
-		url:"/verify-payment",
-		method:"POST"
-		,success:()=>{
-			window.location.href="/success"
-		}
-	})
 
-}
-</script>
-      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+	</script>
+
+
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-		<script src="js/jquery-3.2.1.min.js"></script>
-		<script src="styles/bootstrap4/popper.js"></script>
-		<script src="styles/bootstrap4/bootstrap.min.js"></script>
-		<script src="plugins/easing/easing.js"></script>
-		<script src="plugins/parallax-js-master/parallax.min.js"></script>
-		<script src="js/checkout_custom.js"></script>
+<script src="/js/jquery-3.2.1.min.js"></script>
+<script src="/styles/bootstrap4/popper.js"></script>
+<script src="/styles/bootstrap4/bootstrap.min.js"></script>
+<script src="/plugins/easing/easing.js"></script>
+<script src="/plugins/parallax-js-master/parallax.min.js"></script>
+<script src="/plugins/Isotope/isotope.pkgd.min.js"></script>
+<script src="/plugins/malihu-custom-scrollbar/jquery.mCustomScrollbar.js"></script>
+<script src="/plugins/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+<script src="/js/categories_custom.js"></script>
 </body>
 
 </html>

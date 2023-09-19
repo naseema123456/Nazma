@@ -86,10 +86,10 @@
 		<nav class="menu_nav">
 			<ul class="menu_mm">
 				<li class="menu_mm"><a href="/landing">home</a></li>
-				<li class="menu_mm"><a href="categories.ejs">categary</a></li>
-				<!-- <li class="menu_mm"><a href="#">accessories</a></li>
-				<li class="menu_mm"><a href="#">lingerie</a></li> -->
+				<li class="menu_mm"><a href="/categories">categary</a></li>
 				<li class="menu_mm"><a href="/contact">contact</a></li>
+				<li class="menu_mm"><a href="/banner">Banner</a></li>
+				<li class="menu_mm"><a href="/wallet">Wallet</a></li>
 				<li class="menu_mm"><a href="/login">login</a></li>
 				<li class="menu_mm"><a href="/admin">admin</a></li>
 			</ul>
@@ -163,9 +163,18 @@
 			</div>
 		</div>
 	</div>
+<br><br><br><br><br>
 
+	<div class="container">
+		<div class="alert alert-success" role="alert">
+			<strong>10% Off!</strong> For All Wedding Dresses. Limited Time Offer.
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+	</div>
 	<!-- Promo -->
-
+	
 	<div class="promo">
 		<div class="container">
 			<div class="row">
@@ -176,24 +185,28 @@
 					</div>
 				</div>
 			</div>
-			<div class="row promo_container">
+			<!-- <div class="row promo_container"> -->
 
 				<!-- Promo Item -->
-				<div class="col-lg-4 promo_col">
-					<div class="promo_item">
-						<div class="promo_image">
-							<img src="images/promo_1.jpg" alt="">
-							<div class="promo_content promo_content_1">
-								<div class="promo_title">-30% off</div>
-								<div class="promo_subtitle">on all bags</div>
+				<div class="promo_item">
+						<div class="row">
+						<% if(banner.length){ for(i=0; i<banner.length; i++){ %>
+								<div class="col-4">
+							<div class="promo_image">
+								<img src="/uploads/<%= banner[i].image %>"  alt="">
+								<div class="promo_content promo_content_1">
+									<div class="promo_title">-  <%= banner[i].offer %>  off</div>
+									<div class="promo_subtitle"><%= banner[i].title %></div>
+								</div>
 							</div>
+							<div class="promo_link"><a href="#">Shop Now</a></div>
 						</div>
-						<div class="promo_link"><a href="#">Shop Now</a></div>
+								 <% }} %>
 					</div>
 				</div>
 
 				<!-- Promo Item -->
-				<div class="col-lg-4 promo_col">
+				<!-- <div class="col-lg-4 promo_col">
 					<div class="promo_item">
 						<div class="promo_image">
 							<img src="/images/promo_2.jpg" alt="">
@@ -206,8 +219,8 @@
 					</div>
 				</div>
 
-				<!-- Promo Item -->
-				<div class="col-lg-4 promo_col">
+				 Promo Item -->
+				<!-- <div class="col-lg-4 promo_col">
 					<div class="promo_item">
 						<div class="promo_image">
 							<img src="/images/promo_3.jpg" alt="">
@@ -218,12 +231,12 @@
 						</div>
 						<div class="promo_link"><a href="#">Shop Now</a></div>
 					</div>
-				</div>
+				</div>  -->
 
-			</div>
+			<!-- </div> -->
 		</div>
 	</div>
-
+   
 	<!-- New Arrivals -->
 
 	<div class="arrivals">
@@ -506,7 +519,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col text-center">
-					<div class="footer_logo"><a href="#">Wish</a></div>
+					<div class="footer_logo"><a href="#">NAZMA</a></div>
 					<nav class="footer_nav">
 						<ul>
 							<li><a href="/landing">home</a></li>

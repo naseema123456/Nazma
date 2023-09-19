@@ -22,10 +22,13 @@ userRouter.get('/otplogin',auth.isLogout,userController.otplogin)
 userRouter.post('/otplogin',auth.isLogout,userController.requestotp)
 userRouter.post('/otpLoginVerify',auth.isLogout,userController.otpverify)
 userRouter.post('/editAddress',auth.isLogout,userController.editAddress)
+userRouter.post('/resend-otp',auth.isLogout,userController.resend_Otp)
+
 
 
 
 userRouter.get('/categories',userController.category)
+userRouter.post('/search',userController.search)
 // userRouter.get('/search',userController.search)
 userRouter.get('/contact',auth.isLogin,userController.contact)
 
@@ -51,8 +54,12 @@ userRouter.get('/checkout',auth.isLogin,userController.checkout)
 userRouter.get('/orderManagement',auth.isLogin,userController.orderManagement)
 userRouter.post('/confirm-order',auth.isLogin,userController.confirmorder)
 userRouter.get('/cancelOrder',auth.isLogin,userController.cancelOrder)
-userRouter.get('/refund',auth.isLogin,userController.refund)
+userRouter.get('/return',auth.isLogin,userController.returns)
 userRouter.get('/success',auth.isLogin,userController.success)
+userRouter.post('/applyCoupon',auth.isLogin,userController.applyCoupon)
+userRouter.get('/faiure',auth.isLogin,userController.faiure)
+
+
 
 
 userRouter.post("/verify-payment",auth.isLogin,userController.verifyPayment)
@@ -65,6 +72,15 @@ userRouter.post('/addwish',auth.isLogin,userController.addwish)
 userRouter.get('/wishList',auth.isLogin,userController.wishList)
 userRouter.post('/removeWish',auth.isLogin,userController.removeWish)
 
+userRouter.get('/invoice',userController.invoice)
+
+
+
+userRouter.get('/wallet',auth.isLogin,userController.wallet)
+userRouter.post('/applywallet',auth.isLogin,userController.applywallet)
+
+
+userRouter.get('/banner',auth.isLogin,userController.banners)
 
 
 module.exports=userRouter;

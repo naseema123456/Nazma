@@ -13,6 +13,9 @@ const order = mongoose.Schema({
         quantity: {
             type: Number
         },
+        amount: {
+            type: Number
+        },
         offer:{
             status:{
                 type:Boolean,

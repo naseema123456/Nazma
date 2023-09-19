@@ -95,11 +95,12 @@
             </td>
             
             <td>
-                <form method="POST" action="/admin/delete-product">
-                    <input type="hidden" name="productId" value="<%= productList[i]._id %>">
-                    <button type="submit" class="delete-button">Delete</button>
-                </form>
-            </td>
+              <form method="POST" action="/admin/delete-product" onsubmit="return confirm('Are you sure you want to delete this product?');">
+                  <input type="hidden" name="productId" value="<%= productList[i]._id %>">
+                  <button type="submit" class="delete-button">Delete</button>
+              </form>
+          </td>
+          
         </tr>
         <% }} }%>
     </table>
