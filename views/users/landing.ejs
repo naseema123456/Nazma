@@ -6,7 +6,7 @@
 
 	<header class="header">
 		<div class="header_inner d-flex flex-row align-items-center justify-content-start">
-			<div class="logo"><a href="#">NAZMA</a></div>
+			<div class="logo"><a href="/">NAZMA</a></div>
 			<nav class="main_nav">
 				<ul>
 					<li><a href="/landing">home</a></li>
@@ -30,11 +30,7 @@
 							<span class="material-symbols-outlined">
 								shopping_bag
 								</span>
-							<div class="cart_num_container">
-								<div class="cart_num_inner">
-									<div class="cart_num">1</div>
-								</div>
-							</div>
+							
 						</div>
 					</a>
 					<!-- Star -->
@@ -43,11 +39,7 @@
 							<span class="material-symbols-outlined">
 								favorite
 								</span>
-							<div class="star_num_container">
-								<div class="star_num_inner">
-									<div class="star_num">0</div>
-								</div>
-							</div>
+							
 						</div>
 					</a>
 					<!-- Avatar -->
@@ -58,13 +50,16 @@
 								</span>
 						</div>
 					</a>
-					<a href="/logout">
-						<div class="avatar text-dark" id="">
-							<span class="material-symbols-outlined">
-								exit_to_app <!-- This icon represents logout -->
-							</span>
-						</div>
-					</a>
+					<% if (user){ %>
+
+						<a href="/userLogout">
+							<div class="avatar text-dark" id="">
+								<span class="material-symbols-outlined">
+									exit_to_app <!-- This icon represents logout -->
+								</span>
+							</div>
+						</a>
+				<%	} %>
 					
 				</div>
 			</div>
@@ -76,7 +71,7 @@
 
 	<div class="menu d-flex flex-column align-items-end justify-content-start text-right menu_mm trans_400">
 		<div class="menu_close_container"><div class="menu_close"><div></div><div></div></div></div>
-		<div class="logo menu_mm"><a href="#">NAZMA</a></div>
+		<div class="logo menu_mm"><a href="/">NAZMA</a></div>
 		<div class="search">
 			<form action="#">
 				<input type="search" class="search_input menu_mm" required="required">
@@ -86,9 +81,8 @@
 		<nav class="menu_nav">
 			<ul class="menu_mm">
 				<li class="menu_mm"><a href="/landing">home</a></li>
-				<li class="menu_mm"><a href="/categories">categary</a></li>
+				<li class="menu_mm"><a href="/categories">category</a></li>
 				<li class="menu_mm"><a href="/contact">contact</a></li>
-				<li class="menu_mm"><a href="/banner">Banner</a></li>
 				<li class="menu_mm"><a href="/wallet">Wallet</a></li>
 				<li class="menu_mm"><a href="/login">login</a></li>
 				<li class="menu_mm"><a href="/admin">admin</a></li>
@@ -199,140 +193,17 @@
 									<div class="promo_subtitle"><%= banner[i].title %></div>
 								</div>
 							</div>
-							<div class="promo_link"><a href="#">Shop Now</a></div>
+					
 						</div>
 								 <% }} %>
 					</div>
 				</div>
 
-				<!-- Promo Item -->
-				<!-- <div class="col-lg-4 promo_col">
-					<div class="promo_item">
-						<div class="promo_image">
-							<img src="/images/promo_2.jpg" alt="">
-							<div class="promo_content promo_content_2">
-								<div class="promo_title">-30% off</div>
-								<div class="promo_subtitle">coats & jackets</div>
-							</div>
-						</div>
-						<div class="promo_link"><a href="#">Shop Now</a></div>
-					</div>
-				</div>
-
-				 Promo Item -->
-				<!-- <div class="col-lg-4 promo_col">
-					<div class="promo_item">
-						<div class="promo_image">
-							<img src="/images/promo_3.jpg" alt="">
-							<div class="promo_content promo_content_3">
-								<div class="promo_title">-25% off</div>
-								<div class="promo_subtitle">on Sandals</div>
-							</div>
-						</div>
-						<div class="promo_link"><a href="#">Shop Now</a></div>
-					</div>
-				</div>  -->
-
-			<!-- </div> -->
+				
 		</div>
 	</div>
    
-	<!-- New Arrivals -->
-
-	<div class="arrivals">
-		<div class="container">
-			<div class="row">
-				<div class="col">
-					<div class="section_title_container text-center">
-						<div class="section_subtitle">only the best</div>
-						<div class="section_title">new arrivals</div>
-					</div>
-				</div>
-			</div>
-			<div class="row products_container">
-
-				<!-- Product -->
-				<div class="col-lg-4 product_col">
-					<div class="product">
-						<div class="product_image">
-							<img src="/images/product_1.jpg" alt="">
-						</div>
-						<div class="rating rating_4">
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-						</div>
-						<div class="product_content clearfix">
-							<div class="product_info">
-								<div class="product_name"><a href="/categories">Woman's Long Dress</a></div>
-								<div class="product_price">$45.00</div>
-							</div>
-							<div class="product_options">
-								<div class="product_buy product_option"><img src="/images/shopping-bag-white.svg" alt=""></div>
-								<div class="product_fav product_option">+</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- Product -->
-				<div class="col-lg-4 product_col">
-					<div class="product">
-						<div class="product_image">
-							<img src="images/product_2.jpg" alt="">
-						</div>
-						<div class="rating rating_4">
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-						</div>
-						<div class="product_content clearfix">
-							<div class="product_info">
-								<div class="product_name"><a href="/categories">2 Piece Swimsuit</a></div>
-								<div class="product_price">$35.00</div>
-							</div>
-							<div class="product_options">
-								<div class="product_buy product_option"><img src="images/shopping-bag-white.svg" alt=""></div>
-								<div class="product_fav product_option">+</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- Product -->
-				<div class="col-lg-4 product_col">
-					<div class="product">
-						<div class="product_image">
-							<img src="images/product_3.jpg" alt="">
-						</div>
-						<div class="rating rating_4">
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-						</div>
-						<div class="product_content clearfix">
-							<div class="product_info">
-								<div class="product_name"><a href="/categories">Man Blue Jacket</a></div>
-								<div class="product_price">$145.00</div>
-							</div>
-							<div class="product_options">
-								<div class="product_buy product_option"><img src="images/shopping-bag-white.svg" alt=""></div>
-								<div class="product_fav product_option">+</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-			</div>
-		</div>
-	</div>
-
+	<br><br><br>
 	<!-- Extra -->
 
 	<div class="extra clearfix">
@@ -342,7 +213,7 @@
 				<div class="extra_1_price">30%<span>off</span></div>
 				<div class="extra_1_title">On all shoes</div>
 				<div class="extra_1_text">*Integer ut imperdiet erat. Quisque ultricies lectus tellus, eu tristique magna pharetra.</div>
-				<div class="button extra_1_button"><a href="/checkout">check out</a></div>
+			
 			</div>
 		</div>
 		<div class="extra_promo extra_promo_2">
@@ -354,7 +225,7 @@
 					<div class="extra_2_bottom">Match</div>
 				</div>
 				<div class="extra_2_text">*Integer ut imperdiet erat. Quisque ultricies lectus tellus, eu tristique magna pharetra.</div>
-				<div class="button extra_2_button"><a href="/checkout">check out</a></div>
+		
 			</div>
 		</div>
 	</div>
@@ -374,7 +245,7 @@
 						</ul>
 					</div>
 					<div class="gallery_text text-center">*Integer ut imperdiet erat. Quisque ultricies lectus tellus, eu tristique magna pharetra.</div>
-					<div class="button gallery_button"><a href="#">submit</a></div>
+			
 				</div>
 			</div>
 		</div>	
@@ -501,10 +372,7 @@
 				<div class="row newsletter_container">
 					<div class="col-lg-10 offset-lg-1">
 						<div class="newsletter_form_container">
-							<form action="#">
-								<input type="email" class="newsletter_input" required="required" placeholder="E-mail here">
-								<button type="submit" class="newsletter_button">subscribe</button>
-							</form>
+							
 						</div>
 						<div class="newsletter_text">Integer ut imperdiet erat. Quisque ultricies lectus tellus, eu tristique magna pharetra nec. Fusce vel lorem libero. Integer ex mi, facilisis sed nisi ut, vestib ulum ultrices nulla. Aliquam egestas tempor leo.</div>
 					</div>
@@ -519,7 +387,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col text-center">
-					<div class="footer_logo"><a href="#">NAZMA</a></div>
+					<div class="footer_logo"><a href="/">NAZMA</a></div>
 					<nav class="footer_nav">
 						<ul>
 							<li><a href="/landing">home</a></li>
@@ -539,7 +407,7 @@
 						</ul>
 					</div>
 					<div class="copyright"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+
 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></div>
 				</div>
 			</div>

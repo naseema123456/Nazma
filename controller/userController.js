@@ -19,8 +19,10 @@ const banner=require('../models/banner')
 
 const landing = async (req, res) => {
     try {
-        const ban=await banner.find();console.log(ban);
-        res.render('landing',{banner:ban})
+        const userId=req.session._id
+        const user=await User.findOne({_id:userId})
+        const ban=await banner.find();
+        res.render('landing',{banner:ban,user:user||false})
     } catch (error) {
         console.log(error.message);
     }
@@ -28,66 +30,134 @@ const landing = async (req, res) => {
 
 
 
-const category = async (req, res) => {
-    try {
+// const category = async (req, res) => {
+//     try {
 
-        console.log(req.query);
+//         console.log(req.query);
 
-     const page = parseInt(req.query.page) || 1; 
-    const perPage = 8; 
-    const skip = (page - 1) * perPage;
+//      const page = parseInt(req.query.page) || 1; 
+//     const perPage = 8; 
+//     const skip = (page - 1) * perPage;
 
-        const pro = req.query.product;
-        const categories = await Category.find();
-        let products = await Product.find()
-        .skip(skip)
-        .limit(perPage)
-        .exec(); 
-        const totalProducts = await Product.countDocuments();
-        const totalPages = Math.ceil(totalProducts / perPage);
-  // Load male and female categories
-  // const totalPages =parseInt(Math.ceil( totalCount/ perPage)); 
+ 
+//         const categories = await Category.find();
+//         let products = await Product.find()
+//         .skip(skip)
+//         .limit(perPage)
+//         .exec(); 
+
+//         const totalProducts = await Product.countDocuments();
+//         const totalPages = Math.ceil(totalProducts / perPage);
+//   // Load male and female categories
+//   // const totalPages =parseInt(Math.ceil( totalCount/ perPage)); 
   
-  const currentPage = page; // Set current page
+//   const currentPage = page; // Set current page
  
 
-        let user = await User.find({ name: req.session.user_name });
-        const categoryFilter = req.query.category;
-        const amount=req.query.amount
-        if(req.query.amount){
-            const filterValue = req.query.amount; // Get the selected filter value as a string, e.g., "0,99"
-            const [minAmount, maxAmount] = filterValue.split(',').map(Number); // Split and convert to numbers
-            console.log(minAmount,maxAmount);
+//         let user = await User.findOne({ _id: req.session._id });
+//         const categoryFilter = req.query.category;
+//         const amount=req.query.amount
+//         if(req.query.amount){
+//             const filterValue = req.query.amount; // Get the selected filter value as a string, e.g., "0,99"
+//             const [minAmount, maxAmount] = filterValue.split(',').map(Number); // Split and convert to numbers
+//             console.log(minAmount,maxAmount);
 
         
-        if (!isNaN(minAmount) && !isNaN(maxAmount)) {
-            // Filter products with a price within the specified range
-            products = products.filter(product => product.amount >= minAmount && product.amount <= maxAmount);
-        }
-    }
-        if (pro) {
-            // Filter products by product name
-            products = await Product.find({ productName: pro });
+//         if (!isNaN(minAmount) && !isNaN(maxAmount)) {
+//             // Filter products with a price within the specified range
+//             products = products.filter(product => product.amount >= minAmount && product.amount <= maxAmount);
+//         }
+//     }
+
+        
+//         if (categoryFilter) {
+//             // Filter products by category
+//             // const catObjectId = new mongoose.Types.ObjectId(categoryFilter);
+//             products = products.filter(products => products.category == categoryFilter);
+//         }
+     
+//         res.render('categories', {
+//             List: categories,
+//             product: products,
+//             totalPages,
+//             currentPage,user:user||false,
+      
+//         });
+//     } catch (error) {
+//         console.log(error.message);
+//     }
+// };
+
+
+const category = async (req, res) => {
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const perPage = 8;
+        const skip = (page - 1) * perPage;
+
+        const searchTerm = req.query.product;
+        const categoryFilter = req.query.category;
+        const amount = req.query.amount;
+
+        const categories = await Category.find();
+        let products;
+        let selected="";
+        let selectedamount;
+        let selectedcategory;
+
+
+        // Fetch all products or filter them based on search and amount criteria
+        if (!categoryFilter) {
+            products = await Product.find()
+                .skip(skip)
+                .limit(perPage)
+                .exec();
+        } else {
+            products = await Product.find({ category: categoryFilter });
+          const name=await  Category.findOne({ _id: categoryFilter}, { categoryName: 1, _id: 0 });console.log(name.categoryName);
+            selectedcategory=name.categoryName;
+
         }
 
-        if (categoryFilter) {
-            // Filter products by category
-            // const catObjectId = new mongoose.Types.ObjectId(categoryFilter);
-            products = products.filter(products => products.category == categoryFilter);
+        const totalProducts = await Product.countDocuments();
+        const totalPages = Math.ceil(totalProducts / perPage);
+        const currentPage = page;
+
+        let user = await User.findOne({ _id: req.session._id });
+
+        // Search Products
+        if (typeof searchTerm === 'string') {
+            const searchResults = await Product.find({
+                productName: { $regex: searchTerm, $options: 'i' }
+            });
+            products = searchResults;
+            selected=searchTerm;
         }
-       
+
+        // Filter by Amount
+        if (amount) {
+            const filterValue = amount;
+            const [minAmount, maxAmount] = filterValue.split(',').map(Number);
+
+            if (!isNaN(minAmount) && !isNaN(maxAmount)) {
+                products = products.filter(product => product.amount >= minAmount && product.amount <= maxAmount);
+                selectedamount=amount;
+            }
+        }
 
         res.render('categories', {
             List: categories,
             product: products,
             totalPages,
-            currentPage
-      
+            currentPage,
+            user: user || false,
+            selected,selectedamount,selectedcategory
         });
     } catch (error) {
         console.log(error.message);
     }
 };
+
 
 const contact = async (req, res) => {
     try {
@@ -242,17 +312,17 @@ const insertUser = async (req, res) => {
 const verifyLogin = async (req, res) => {
     try {
 
-        const check = await User.findOne({ email: req.body.email });
-        //   console.log(check);
-        const userData = await bcrypt.compare(req.body.password, check.password)
+        const user = await User.findOne({ email: req.body.email });
+        //   console.log(user);
+        const userData = await bcrypt.compare(req.body.password, user.password)
         //   console.log(userData);
         if (userData) {
 
-            if (check.is_verify == 1) {
-                req.session.user_name = check.name
-                req.session._id = check._id
-                res.cookie('user_name', check.name)
-                console.log(check.name + " logged in");
+            if (user.is_verify == 1) {
+                req.session.user_name = user.name
+                req.session._id = user._id
+                res.cookie('user_name', user.name)
+                console.log(user.name + " logged in");
                 res.redirect('/landing')
             } else {
                 res.render('login', { message: "Email is not verified" })
@@ -371,8 +441,10 @@ const resend_Otp = async (req,res) => {
 const product = async (req, res) => {
     try {
         // console.log(req.query);
+        const userId=req.session._id
+        const user=await User.findOne({_id:userId})
         const productdata = await Product.find({ _id: req.query.id })
-        res.render('product', { List: productdata })
+        res.render('product', { List: productdata,user:user||false })
 
     } catch (error) {
         console.log(error.message);
@@ -473,27 +545,57 @@ const checkout = async (req, res) => {
         console.log(req.query);
         const productdata = await Product.find({ _id: req.query.id })
         const check = await User.findOne({ _id: req.session._id });
+        const cart = await User.findOne(
+            { _id: req.session._id, 'cart.product': req.query.id },
+            { 'cart.$': 1 } // Use the $ projection to return only the matched cart item
+          );
+          
+          if (cart && cart.cart && cart.cart.length > 0) {
+            const quantity = cart.cart[0].quantity;console.log(quantity);
         // console.log(check);
-        if (check) res.render('checkout', { profile: check, List: productdata })
+        if (check) res.render('checkout', { profile: check, List: productdata,quantity:quantity })}
     } catch (error) {
         console.log(error.message);
     }
 }
 const addquantity = async (req, res) => {
     try {
-        console.log(req.body);
-        const id = req.body.id;
-        const update = await User.updateOne(
-            { _id: req.session._id, 'cart.product': req.body.id },
-            {
-                $inc: {
-                    'cart.$.quantity': 1,
+   
+        const productId = req.body.id;
+        const action=req.body.action;
+        const user=await User.findOne({_id:req.session._id})
+        const cartItems = user.cart.find((item) => item.product.toString() === productId)
+        console.log(cartItems);
+        if(action=='increase'){
+
+            const update = await User.updateOne(
+                { _id: req.session._id, 'cart.product': req.body.id },
+                {
+                    $inc: {
+                        'cart.$.quantity': 1,
+                    }
+    
                 }
+            );
+    
+            if (update) res.json()
+        }else if(action=='decrease' && cartItems.quantity > 1){
+            const update = await User.updateOne(
+                { _id: req.session._id, 'cart.product': req.body.id },
+                {
+                    $inc: {
+                        'cart.$.quantity':- 1,
+                    }
+    
+                }
+            );
+    
+            if (update) res.json()
+    }else{
 
-            }
-        );
+}
 
-        if (update) res.json()
+
 
     } catch (error) {
         console.log(error.message);
@@ -1037,14 +1139,7 @@ const wallet=async(req,res)=>{
     }
 }
 
-const banners=async(req,res)=>{
-    try {
-        const banr=await banner.find()
-        res.render('banner',{banner:banr})
-    } catch (error) {
-        console.log(error.message);
-    }
-}
+
 const applywallet=(req,res)=>{
     try {
         const total = req.body.total
@@ -1054,6 +1149,18 @@ const applywallet=(req,res)=>{
         console.log(error.message);
     }
 }
+const userLogout=async(req,res)=>{
+    try{ 
+        req.session.destroy();
+        res.clearCookie('_id');
+        // res.render('/',{message:"Logout Successfuly!!!!...."})
+        res.redirect('/')
+
+    }catch(error){
+        console.log(error.message);
+    }
+}
+
 module.exports = {
     landing,
     category,
@@ -1091,7 +1198,8 @@ module.exports = {
     faiure,
     invoice,
     wallet,
-    banners,
-    applywallet
+ 
+    applywallet,
+    userLogout
 
 }

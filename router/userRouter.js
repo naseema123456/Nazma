@@ -80,7 +80,8 @@ userRouter.get('/wallet',auth.isLogin,userController.wallet)
 userRouter.post('/applywallet',auth.isLogin,userController.applywallet)
 
 
-userRouter.get('/banner',auth.isLogin,userController.banners)
+userRouter.get('/userLogout',auth.isLogin,userController.userLogout)
+
 
 
 module.exports=userRouter;

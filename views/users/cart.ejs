@@ -23,7 +23,7 @@
 
 		<header class="header">
 			<div class="header_inner d-flex flex-row align-items-center justify-content-start">
-				<div class="logo"><a href="#">NAZMA</a></div>
+				<div class="logo"><a href="/">NAZMA</a></div>
 				<nav class="main_nav">
 					<ul>
 						<li><a href="/landing">home</a></li>
@@ -47,11 +47,7 @@
 								<span class="material-symbols-outlined">
 									shopping_bag
 								</span>
-								<div class="cart_num_container">
-									<div class="cart_num_inner">
-										<div class="cart_num">1</div>
-									</div>
-								</div>
+								
 							</div>
 						</a>
 						<!-- Star -->
@@ -60,11 +56,7 @@
 								<span class="material-symbols-outlined">
 									favorite
 								</span>
-								<div class="star_num_container">
-									<div class="star_num_inner">
-										<div class="star_num">0</div>
-									</div>
-								</div>
+							
 							</div>
 						</a>
 						<!-- Avatar -->
@@ -104,7 +96,7 @@
 					<div></div>
 				</div>
 			</div>
-			<div class="logo menu_mm"><a href="#">NAZMA</a></div>
+			<div class="logo menu_mm"><a href="/">NAZMA</a></div>
 			<div class="search">
 				<form action="#">
 					<input type="search" class="search_input menu_mm" required="required">
@@ -114,11 +106,12 @@
 			</div>
 			<nav class="menu_nav">
 				<ul class="menu_mm">
-					<li class="menu_mm"><a href="index.html">home</a></li>
-					<li class="menu_mm"><a href="#">clothes</a></li>
-					<li class="menu_mm"><a href="#">accessories</a></li>
-					<li class="menu_mm"><a href="#">lingerie</a></li>
-					<li class="menu_mm"><a href="#">contact</a></li>
+					<li class="menu_mm"><a href="/landing">home</a></li>
+				<li class="menu_mm"><a href="/categories">category</a></li>
+				<li class="menu_mm"><a href="/contact">contact</a></li>
+				<li class="menu_mm"><a href="/wallet">Wallet</a></li>
+				<li class="menu_mm"><a href="/login">login</a></li>
+				<li class="menu_mm"><a href="/admin">admin</a></li>
 				</ul>
 			</nav>
 		</div>
@@ -201,11 +194,11 @@
 													<div class="product_quantity clearfix">
 														<div class="input-group">
 															<div class="input-group-prepend">
-																<button class="btn btn-secondary" type="button" name="id" value="<%= List[i].cartProduct._id %>" onclick="decrementQuantity('<%= i %>')">-</button>
+																<button class="btn btn-secondary" type="button" name="id" value="<%= List[i].cartProduct._id %>" onclick="showAmount('decrease','<%= List[i].cartProduct._id %>','<%= List[i].cartProduct.amount %>')">-</button>
 															</div>
-															<input  class="form-control text-center quantity_input" type="text" pattern="[0-9]*" value="<%= List[i].cart.quantity %>">
+															<input  class="form-control text-center quantity_input" type="text" min="1" value="<%= List[i].cart.quantity %>">
 															<div class="input-group-append">
-																<button class="btn btn-secondary" type="button"  name="id" value="<%= List[i].cartProduct._id %>"onclick="incrementQuantity('<%= i %>')">+</button>
+																<button class="btn btn-secondary" type="button"  name="id" value="<%= List[i].cartProduct._id %>"onclick="showAmount('increase','<%= List[i].cartProduct._id  %>','<%= List[i].cartProduct.amount %>')">+</button>
 															</div>
 														</div>
 													</div>
@@ -213,7 +206,8 @@
 												
 											
 												<!-- Products Total Price -->
-												<div class="cart_product_total" > <input type="text" class="text-center w-50 displayRate" readonly  value="<%= List[i].cartProduct.amount %>*<%= List[i].cart.quantity%>"> </div>
+												<% const subtotal = List[i].cartProduct.amount* List[i].cart.quantity %>
+												<div class="cart_product_total" > <input type="text" class="text-center w-50 displayRate" readonly  value="<%= subtotal%>"> </div>
 												<!-- Product Cart Trash Button -->
 												<div class="cart_product_button">
 													<button class="cart_product_remove" onclick="removeProduct(this)" data-index="<%= i %>">
@@ -233,9 +227,9 @@
 					</div>
 					<% }} %>
 					
-						<div class="row cart_extra">
+						<!-- <div class="row cart_extra"> -->
 							<!-- Cart Coupon -->
-							<div class="col-lg-6">
+							<!-- <div class="col-lg-6">
 								<div class="cart_coupon">
 									<div class="cart_title">coupon code</div>
 									<form action="#"
@@ -246,9 +240,9 @@
 										<button class="button_clear cart_button_2">apply coupon</button>
 									</form>
 								</div>
-							</div>
+							</div> -->
 							<!-- Cart Total -->
-							<div class="col-lg-5 offset-lg-1">
+							<!-- <div class="col-lg-5 offset-lg-1">
 								<div class="cart_total">
 									<div class="cart_title">cart total</div>
 									<ul>
@@ -270,89 +264,13 @@
 									<button  class="cart_total_button "><a href="/checkout"> proceed to checkout</a></button>
 								</div>
 							</div>
-						</div>
+						</div> -->
 			</div>
 		</div>
 
 		<!-- Newsletter -->
 
-		<div class="newsletter">
-			<div class="newsletter_content">
-				<div class="newsletter_image parallax-window" data-parallax="scroll" data-image-src="images/cart_nl.jpg"
-					data-speed="0.8"></div>
-				<div class="container">
-					<div class="row options">
-
-						<!-- Options Item -->
-						<div class="col-lg-3">
-							<div class="options_item d-flex flex-row align-items-center justify-content-start">
-								<div class="option_image"><img src="images/option_1.png" alt=""></div>
-								<div class="option_content">
-									<div class="option_title">30 Days Returns</div>
-									<div class="option_subtitle">No questions asked</div>
-								</div>
-							</div>
-						</div>
-
-						<!-- Options Item -->
-						<div class="col-lg-3">
-							<div class="options_item d-flex flex-row align-items-center justify-content-start">
-								<div class="option_image"><img src="images/option_2.png" alt=""></div>
-								<div class="option_content">
-									<div class="option_title">Free Delivery</div>
-									<div class="option_subtitle">On all orders</div>
-								</div>
-							</div>
-						</div>
-
-						<!-- Options Item -->
-						<div class="col-lg-3">
-							<div class="options_item d-flex flex-row align-items-center justify-content-start">
-								<div class="option_image"><img src="images/option_3.png" alt=""></div>
-								<div class="option_content">
-									<div class="option_title">Secure Payments</div>
-									<div class="option_subtitle">No need to worry</div>
-								</div>
-							</div>
-						</div>
-
-						<!-- Options Item -->
-						<div class="col-lg-3">
-							<div class="options_item d-flex flex-row align-items-center justify-content-start">
-								<div class="option_image"><img src="images/option_4.png" alt=""></div>
-								<div class="option_content">
-									<div class="option_title">24/7 Support</div>
-									<div class="option_subtitle">Just call us</div>
-								</div>
-							</div>
-						</div>
-
-					</div>
-					<div class="row newsletter_row">
-						<div class="col">
-							<div class="section_title_container text-center">
-								<div class="section_subtitle">only the best</div>
-								<div class="section_title">subscribe for a 20% discount</div>
-							</div>
-						</div>
-					</div>
-					<div class="row newsletter_container">
-						<div class="col-lg-10 offset-lg-1">
-							<div class="newsletter_form_container">
-								<form action="#">
-									<input type="email" class="newsletter_input" required="required"
-										placeholder="E-mail here">
-									<button type="submit" class="newsletter_button">subscribe</button>
-								</form>
-							</div>
-							<div class="newsletter_text">Integer ut imperdiet erat. Quisque ultricies lectus tellus, eu
-								tristique magna pharetra nec. Fusce vel lorem libero. Integer ex mi, facilisis sed nisi
-								ut, vestib ulum ultrices nulla. Aliquam egestas tempor leo.</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+		
 
 		<!-- Footer -->
 
@@ -360,12 +278,12 @@
 			<div class="container">
 				<div class="row">
 					<div class="col text-center">
-						<div class="footer_logo"><a href="#">Wish</a></div>
+						<div class="footer_logo"><a href="/">NAZMA</a></div>
 						<nav class="footer_nav">
 							<ul>
-								<li><a href="index.html">home</a></li>
-								<li><a href="categories.html">clothes</a></li>
-								<li><a href="contact.html">contact</a></li>
+								<li><a href="/">home</a></li>
+								<li><a href="/categories">Category</a></li>
+								<li><a href="/contact">contact</a></li>
 							</ul>
 						</nav>
 						<div class="footer_social">
@@ -377,14 +295,7 @@
 								<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
 							</ul>
 						</div>
-						<div class="copyright">
-							<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-							Copyright &copy;
-							<script>document.write(new Date().getFullYear());</script> All rights reserved | This
-							template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a
-								href="https://colorlib.com" target="_blank">Colorlib</a>
-							<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-						</div>
+					
 					</div>
 				</div>
 			</div>
@@ -392,32 +303,20 @@
 	</div>
 
 	<script>
-		function incrementQuantity(i) {
-    const quantityInput = document.getElementsByClassName('quantity_input')[i];
-    const currentValue = parseInt(quantityInput.value);
-	const updValue=currentValue + 1
-	quantityInput.value = updValue;
-	showAmount(i,updValue);
-}
+		
+		function showAmount(action,id,amount) {
+			// const data = document.getElementsByClassName("rate")[i].value
+			// const qty = document.getElementsByClassName("quantity_input")[i].value
+			// document.getElementsByClassName("displayRate")[i].value = data * qty
+		console.log(amount,id);
+			fetch(`/addquantity/`,{
+				method:'post',
+				headers:{"Content-type":"application/json"},
+				body:JSON.stringify({action:action,id:id})
 
-function decrementQuantity(i) {
-    const quantityInput = document.getElementsByClassName('quantity_input')[i];
-    const currentValue = parseInt(quantityInput.value);
-    if (currentValue > 1) {
-		const updValue=currentValue - 1
-        quantityInput.value = updValue;
-        showAmount(i,updValue);
-    }
-}
+			}).then(()=>{;
 
-		function showAmount(i,qtyUpdated) {
-			const data = document.getElementsByClassName("rate")[i].value
-			const qty = document.getElementsByClassName("quantity_input")[i].value
-			document.getElementsByClassName("displayRate")[i].value = data * qty
 			
-			fetch(`/addquantity/${qtyUpdated}`).then(()=>{;
-				method='post'
-				console.log(id);
 				window.location.reload()
 			}).catch((Error)=>{
 				console.error('error');
