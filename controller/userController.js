@@ -605,7 +605,8 @@ const addquantity = async (req, res) => {
 
 const otplogin = async (req, res) => {
     try {
-        res.render('otplogin')
+        let message=req.session.message
+        res.render('otplogin',{message})
     } catch (error) {
         console.log(error.message);
     }
@@ -618,15 +619,16 @@ const requestotp = async (req, res) => {
         const name = await Match.name;
         const userId = await Match._id
         if (!Match) { // find exisitng user or not
-            return res.render('otpLogin', {
+            return res.render('/otpLogin', {
                 message: 'No user found with provided email',
             })
         };
         sendVerifyMail(name, email, userId);
 
-        res.render('otpLogin', {
-            message: "OTP send to Email", userId
-        })
+       
+       req.session.message = "OTP send to Email";
+        
+        res.redirect('/otpLogin')
     }
 
     catch (error) {
