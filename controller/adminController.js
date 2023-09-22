@@ -157,8 +157,11 @@ const listOfUser = async (req, res) => {
 }
 const addProduct = async (req, res) => {
     try {
+
         const categoryData = await category.find()
-        res.render('addProduct', { List: categoryData })
+     
+        
+        res.render('addProduct', { List: categoryData,message })
     } catch (error) {
         console.log(error.message);
     }
@@ -189,9 +192,10 @@ const insertProduct = async (req, res) => {
         if (productData) {
             console.log(productData);
             const categoryData = await category.find()
-            res.redirect('/admin/addproduct', { message: "Product added successfully.", List: categoryData });
+     
+            res.redirect('/admin/addproduct');
         } else {
-            res.redirect('/admin/addproduct', { message: "Failed to add product." });
+            res.redirect('/admin/addproduct');
         }
     } catch (error) {
         console.log(error.message);

@@ -76,7 +76,7 @@ if(typeof message !=='undefined'){
         </div>
         <form action="/editAddress?id=<%= profile.address[i]._id %>" method="post">
         <div class="modal-body">
-            <input type="text" class="form-control"name="name" id="address"value=" <%= profile.address[i].name %>">
+            <input type="text" class="form-control"name="name" id="address"value=" <%= profile.address[i].name %>" >
             <input type="text" class="form-control"name="place" id="address"value=" <%= profile.address[i].place %>">
             <input type="text" class="form-control"name="mobile" id="address"value=" <%= profile.address[i].mobile %>">
             <input type="text" class="form-control"name="district" id="address"value=" <%= profile.address[i].district %>">
@@ -110,12 +110,12 @@ if(typeof message !=='undefined'){
                     <form action="/addAddress?id=<%= profile._id %>" method="post">
                         <div class="form-group">
                             <label for="address">Address</label>
-                            <input type="text" class="form-control"name="name" id="address" placeholder="Enter name">
-                            <input type="text" class="form-control"name="place" id="address" placeholder="Enter place">
-                            <input type="text" class="form-control"name="mobile" id="address" placeholder="Enter mobile">
-                            <input type="text" class="form-control"name="district" id="address" placeholder="Enter district">
-                            <input type="text" class="form-control"name="post" id="address" placeholder="Enter post">
-                            <input type="text" class="form-control"name="state" id="address" placeholder="Enter state">
+                            <input type="text" class="form-control"name="name" id="address" placeholder="Enter name"required pattern="[a-z A-Z]*" >
+                            <input type="text" class="form-control"name="place" id="address" placeholder="Enter place"required>
+                            <input type="tel" class="form-control"name="mobile" id="address" placeholder="Enter mobile" required pattern="[0-9]{10}">
+                            <input type="text" class="form-control"name="district" id="address" placeholder="Enter district" required>
+                            <input type="text" class="form-control"name="post" id="address" placeholder="Enter post" required>
+                            <input type="text" class="form-control"name="state" id="address" placeholder="Enter state" required>
                         </div>
                         <button type="submit" class="btn btn-primary">Add Address</button>
                     </form>
