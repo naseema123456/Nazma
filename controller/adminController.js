@@ -189,9 +189,9 @@ const insertProduct = async (req, res) => {
         if (productData) {
             console.log(productData);
             const categoryData = await category.find()
-            res.render('addproduct', { message: "Product added successfully.", List: categoryData });
+            res.redirect('/admin/addproduct', { message: "Product added successfully.", List: categoryData });
         } else {
-            res.render('addproduct', { message: "Failed to add product." });
+            res.redirect('/admin/addproduct', { message: "Failed to add product." });
         }
     } catch (error) {
         console.log(error.message);
@@ -446,7 +446,8 @@ const removeCoupon=async(req,res)=>{
 const editCoupon=async(req,res)=>{
     try {console.log(req.query.id);
         console.log(req.body);
-        const coupon = await Coupon.updateOne({ _id: req.query.id }, { $set: { code: req.body.code, discountAmount: req.body.discountAmount, expiryDate: req.body.expiryDate } });
+        const coupon = await Coupon.updateOne({ _id: req.query.id }, { $set: { code: req.body.code, discountAmount: req.body.discountAmount, 
+            minimumPurchaseAmount: req.body.minAmount, maximumPurchaseAmount:req.body.maxAmount, expiryDate: req.body.expiryDate } });
         //  await User.save();
         if (coupon) {
             // console.log(userData);

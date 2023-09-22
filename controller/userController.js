@@ -20,6 +20,7 @@ const banner=require('../models/banner')
 const landing = async (req, res) => {
     try {
         const userId=req.session._id
+   
         const user=await User.findOne({_id:userId})
         const ban=await banner.find();
         res.render('landing',{banner:ban,user:user||false})
@@ -30,63 +31,6 @@ const landing = async (req, res) => {
 
 
 
-// const category = async (req, res) => {
-//     try {
-
-//         console.log(req.query);
-
-//      const page = parseInt(req.query.page) || 1; 
-//     const perPage = 8; 
-//     const skip = (page - 1) * perPage;
-
- 
-//         const categories = await Category.find();
-//         let products = await Product.find()
-//         .skip(skip)
-//         .limit(perPage)
-//         .exec(); 
-
-//         const totalProducts = await Product.countDocuments();
-//         const totalPages = Math.ceil(totalProducts / perPage);
-//   // Load male and female categories
-//   // const totalPages =parseInt(Math.ceil( totalCount/ perPage)); 
-  
-//   const currentPage = page; // Set current page
- 
-
-//         let user = await User.findOne({ _id: req.session._id });
-//         const categoryFilter = req.query.category;
-//         const amount=req.query.amount
-//         if(req.query.amount){
-//             const filterValue = req.query.amount; // Get the selected filter value as a string, e.g., "0,99"
-//             const [minAmount, maxAmount] = filterValue.split(',').map(Number); // Split and convert to numbers
-//             console.log(minAmount,maxAmount);
-
-        
-//         if (!isNaN(minAmount) && !isNaN(maxAmount)) {
-//             // Filter products with a price within the specified range
-//             products = products.filter(product => product.amount >= minAmount && product.amount <= maxAmount);
-//         }
-//     }
-
-        
-//         if (categoryFilter) {
-//             // Filter products by category
-//             // const catObjectId = new mongoose.Types.ObjectId(categoryFilter);
-//             products = products.filter(products => products.category == categoryFilter);
-//         }
-     
-//         res.render('categories', {
-//             List: categories,
-//             product: products,
-//             totalPages,
-//             currentPage,user:user||false,
-      
-//         });
-//     } catch (error) {
-//         console.log(error.message);
-//     }
-// };
 
 
 const category = async (req, res) => {
@@ -172,12 +116,12 @@ const cart = async (req, res) => {
         const productdata = await Product.find({ _id: req.query.id })
         // console.log( req.session.user_name);
         // Assuming you have the authenticated user's ID available in req.user
-        const user = await User.findOne({ name: req.session.user_name });
+        const user = await User.findOne({ _id: req.session._id });
         // Add the product to the user's cart
-        const a = User.findOne({ name: req.session.user_name }, { cart: productdata });
+        const a = User.findOne({ _id: req.session._id }, { cart: productdata });
         // console.log(a);
 
-        User.findOne({ name: req.session.user_name }, { cart: productdata })
+        User.findOne({ _id: req.session._id}, { cart: productdata })
         if (user) {
 
 
@@ -196,7 +140,8 @@ const cart = async (req, res) => {
                     // If the product was not found, add it to the cart with quantity 1
                     user.cart.push({
                         product: productdata[0],
-                        quantity: 1
+                        quantity: 1,
+                        total:productdata.amount
                     });
                 }
 
@@ -456,7 +401,8 @@ const profile = async (req, res) => {
         // console.log(  req.session.user_name);
         const check = await User.findOne({ _id: req.session._id });
         // console.log(check)
-        res.render('profile', { profile: check })
+        let message=req.session.message
+        res.render('profile', { profile: check ,message})
     } catch (error) {
         console.log(error.message);
     }
@@ -560,47 +506,54 @@ const checkout = async (req, res) => {
 }
 const addquantity = async (req, res) => {
     try {
-   
         const productId = req.body.id;
-        const action=req.body.action;
-        const user=await User.findOne({_id:req.session._id})
-        const cartItems = user.cart.find((item) => item.product.toString() === productId)
-        console.log(cartItems);
-        if(action=='increase'){
+        const action = req.body.action;
+        const userId = req.session._id;
 
-            const update = await User.updateOne(
-                { _id: req.session._id, 'cart.product': req.body.id },
-                {
+        let updateQuery = {};
+        
+        const user = await User.findOne({ _id: userId });
+
+        if (action === 'increase') {
+            updateQuery = {
+                $inc: {
+                    'cart.$[item].quantity': 1,
+                },
+            };
+        } else if (action === 'decrease') {
+            const cartItem = user.cart.find((item) => item.product.toString() === productId);
+            if (cartItem && cartItem.quantity > 1) {
+                updateQuery = {
                     $inc: {
-                        'cart.$.quantity': 1,
-                    }
-    
-                }
-            );
-    
-            if (update) res.json()
-        }else if(action=='decrease' && cartItems.quantity > 1){
-            const update = await User.updateOne(
-                { _id: req.session._id, 'cart.product': req.body.id },
-                {
-                    $inc: {
-                        'cart.$.quantity':- 1,
-                    }
-    
-                }
-            );
-    
-            if (update) res.json()
-    }else{
+                        'cart.$[item].quantity': -1,
+                    },
+                };
+            } else {
+                // Handle the case where the quantity is already 1 or the item is not found
+                return res.status(400).json({ message: 'Cannot decrease quantity further' });
+            }
+        }
 
-}
+        const update = await User.updateOne(
+            { _id: userId },
+            updateQuery,
+            {
+                arrayFilters: [
+                    { 'item.product': productId },
+                ],
+            }
+        );
 
-
-
+        if (update) {
+            res.json({ message: 'Quantity updated successfully' });
+        } else {
+            res.status(400).json({ message: 'Failed to update quantity' });
+        }
     } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
+        res.status(500).json({ message: 'Internal server error' });
     }
-}
+};
 
 
 const otplogin = async (req, res) => {
@@ -638,11 +591,11 @@ const requestotp = async (req, res) => {
 const otpverify = async (req, res) => {
     try {
         const useremail = req.body.email; // Get the user's ID from the request
-        const userId = await User.findOne({ email: useremail }, { name: 1 })
+        const userId = await User.findOne({ email: useremail }, { name: 1 });
         const enteredOTP = req.body.otp; // Get the entered OTP from the request
         // console.log(userId._id);
         // Find the OTP verification record for the user
-        const otpRecord = await UserOTPVerification.findOne({ userId: userId._id });
+        const otpRecord = await UserOTPVerification.findOne({ userId: userId._id });console.log(otpRecord)
         // console.log(otpRecord)
         if (!otpRecord) {
             return res.render('otplogin', { message: "Invalid code passed. Check your inbox 11" });
@@ -662,9 +615,10 @@ const otpverify = async (req, res) => {
             // Update user's verification status
             const check = await User.updateOne({ _id: userId }, { $set: { is_verify: 1 } });
 
+           
             // Render success message or redirect to a success page
-            req.session.user_name = check.name
-            req.session._id = check._id
+            req.session.user_name = userId.name
+            req.session._id = userId._id
             res.cookie('user_name', check.name)
             console.log(check.name + " logged in");
             res.redirect('/landing')
@@ -762,8 +716,10 @@ const confirmorder = async (req, res) => {
         const selectedAddress = addres.address[0];
 
         if (req.body.payment_method == 'COD') {
+            const userData = await User.findOne({ _id: req.session._id })
+
             const Order = await new order({
-                user: user.name,
+                user: userData.name,
                 orderNumber: result,
                 products: [{ product: product.productName, quantity: 1, amount: product.amount }],
                 orderdate: Date.now(),
@@ -842,6 +798,7 @@ const confirmorder = async (req, res) => {
                 orderaddress: selectedAddress,
                 totalprice:product.amount,
                 paymentstatus: "pending",
+                productid:productId
             }
 
             req.session.orderdata = Orderdata
@@ -996,9 +953,10 @@ const verifyPayment = async (req, res) => {
     try {
 
         let orderdata = req.session.orderdata
+        const productId=orderdata.productid
         const Order = await new order({
-            user: orderdata.user.name,
-            orderNumber: orderdata.result,
+            user: orderdata.user,
+            orderNumber: orderdata.orderNumber,
             products: [{ product: orderdata.products.product, quantity: 1 }],
             orderdate: Date.now(),
             payement: orderdata.payment_method,
@@ -1012,6 +970,9 @@ const verifyPayment = async (req, res) => {
             // Subtract the ordered quantity from the product's stock
             product.count -= 1;
 
+            const a = await User.updateOne({ _id: req.session._id }, {
+                $unset: { cart: { _id: productId } }
+            })
             // Save the updated product back to the database
             await product.save();
             res.status(200).json({ success: true })
@@ -1163,6 +1124,27 @@ const userLogout=async(req,res)=>{
     }
 }
 
+const resetpassword=async(req,res)=>{
+    try {
+        console.log(req.body);
+        const newpassword=req.body.newpassword;
+       const confirmpassword=req.body.confirmpassword;
+       console.log(newpassword,confirmpassword);
+       if(newpassword===confirmpassword){
+     const password= await bcrypt.hash(newpassword, 2);
+     const pass = await User.updateOne({ _id: req.session._id }, { $set: { password:password} });
+     req.session.message = "password is changed!";
+     res.redirect('/profile')
+       }else{
+        req.session.message = "confirm password is incorrect!";
+        res.redirect('/profile')
+       }
+        
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
 module.exports = {
     landing,
     category,
@@ -1202,6 +1184,7 @@ module.exports = {
     wallet,
  
     applywallet,
-    userLogout
+    userLogout,
+    resetpassword
 
 }

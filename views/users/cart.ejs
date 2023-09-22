@@ -196,7 +196,7 @@
 															<div class="input-group-prepend">
 																<button class="btn btn-secondary" type="button" name="id" value="<%= List[i].cartProduct._id %>" onclick="showAmount('decrease','<%= List[i].cartProduct._id %>','<%= List[i].cartProduct.amount %>')">-</button>
 															</div>
-															<input  class="form-control text-center quantity_input" type="text" min="1" value="<%= List[i].cart.quantity %>">
+															<input class="form-control text-center quantity_input" type="text" min="1" value="<%= List[i].cart.quantity %>" data-product-id="<%= List[i]._id %>">
 															<div class="input-group-append">
 																<button class="btn btn-secondary" type="button"  name="id" value="<%= List[i].cartProduct._id %>"onclick="showAmount('increase','<%= List[i].cartProduct._id  %>','<%= List[i].cartProduct.amount %>')">+</button>
 															</div>
@@ -227,44 +227,7 @@
 					</div>
 					<% }} %>
 					
-						<!-- <div class="row cart_extra"> -->
-							<!-- Cart Coupon -->
-							<!-- <div class="col-lg-6">
-								<div class="cart_coupon">
-									<div class="cart_title">coupon code</div>
-									<form action="#"
-										class="cart_coupon_form d-flex flex-row align-items-start justify-content-start"
-										id="cart_coupon_form">
-										<input type="text" class="cart_coupon_input" placeholder="Coupon code"
-											required="required">
-										<button class="button_clear cart_button_2">apply coupon</button>
-									</form>
-								</div>
-							</div> -->
-							<!-- Cart Total -->
-							<!-- <div class="col-lg-5 offset-lg-1">
-								<div class="cart_total">
-									<div class="cart_title">cart total</div>
-									<ul>
-										<% let totalAmount = 0; %>
-										<% if(List.length){ for(i=0; i<List.length;i++){
-											totalAmount += List[i].cartProduct.amount; 
-											%>
-										<li class="d-flex flex-row align-items-center justify-content-start">
-											<div class="cart_total_title"><%= List[i].cartProduct.productName %></div>
-											<div class="cart_total_price ml-auto"><%= List[i].cartProduct.amount %></div>
-										</li>
-									
-										<% }} %>
-										<li class="d-flex flex-row align-items-center justify-content-start">
-											<div class="cart_total_title">Total</div>
-											<div class="cart_total_price ml-auto">  ₹<%= totalAmount %></div>
-										</li>
-									</ul>
-									<button  class="cart_total_button "><a href="/checkout"> proceed to checkout</a></button>
-								</div>
-							</div>
-						</div> -->
+						
 			</div>
 		</div>
 

@@ -84,4 +84,9 @@ userRouter.get('/userLogout',auth.isLogin,userController.userLogout)
 
 
 
+userRouter.post('/resetpassword',auth.isLogin,userController.resetpassword)
+
+
+
+
 module.exports=userRouter;
